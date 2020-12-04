@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 03/12/2020 18:03:31
+ Date: 04/12/2020 17:33:09
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `tp6_admin`  (
   `nick_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '管理员昵称，可用于登录',
   `true_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '管理员真实姓名',
   `phone` char(11) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '手机号',
-  `pwd` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '密码',
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '密码',
   `pwd_salt` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '密码盐',
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
   `header_pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '头像',
@@ -39,11 +39,12 @@ CREATE TABLE `tp6_admin`  (
   `updated_at` int(10) NULL DEFAULT NULL COMMENT '最后一次修改此账号的时间',
   `updated_id` int(10) NULL DEFAULT NULL COMMENT '最后一次修改此账号的管理员id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '后台管理员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '后台管理员表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tp6_admin
 -- ----------------------------
+INSERT INTO `tp6_admin` VALUES (1, 'admin', 'admin', '', 'cd447984a1abd6d36c32815fbdf11e24', '4fcd2e', NULL, NULL, 1, 1, NULL, NULL, 1607068229, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tp6_rose
@@ -65,7 +66,7 @@ CREATE TABLE `tp6_rose`  (
 -- ----------------------------
 -- Records of tp6_rose
 -- ----------------------------
-INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1606989490, NULL, NULL, NULL);
+INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1607068274, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tp6_rule

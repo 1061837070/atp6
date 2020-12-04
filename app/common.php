@@ -3,15 +3,31 @@
 
 declare (strict_types = 1);
 
-if (!function_exists('ccc')) {
+if (!function_exists('p')) {
     /**
-     * [cc 测试]
-     * @param  string $name  [description]
-     * @param  string $pname [description]
-     * @return [type]        [description]
+     * 自定义函数 打印操作
+     * @param $param
      */
-    function cc(string $name, string $pname): string
+    function p($param)
     {
-        return $name . $pname;
+        echo "<pre>";
+        print_r($param);
+        echo "<pre>";
+        die();
+    }
+}
+
+if (!function_exists('setEncWord')) {
+    /**
+     * 生成加密字符串
+     * @param string $a
+     * @param string $b
+     * @param string $c
+     * @return string
+     */
+    function setEncWord(string $a, string $b, string $c): string
+    {
+        $str = md5(md5($a).md5($b).md5($c));
+        return $str;
     }
 }
