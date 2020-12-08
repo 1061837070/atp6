@@ -1,6 +1,9 @@
 <?php
 use think\facade\Route;
 
+Route::get('login', 'login/login');
+
+
 // 一般路由
 Route::get('test2', 'test/test2');
 

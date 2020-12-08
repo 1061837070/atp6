@@ -12,10 +12,17 @@ use app\back\model\RoseModel;
  */
 class Rose extends BaseController
 {
+    protected $noNeedLogin = ['addSuperRose'];
+
     public function index()
     {
-        return 'rose';
+        $hbtns = $this->show_btn(['add']);
+        $mbtns = $this->show_btn(['edit', 'setRule', 'del']);
+        $isOperate = empty($mbtns) ? 0 : 1;
+    p($mbtns);
+        return view('index',['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
     }
+
 
     /**
      * 后台添加超级管理员角色角色 初始化时直接浏览器地址操作  只能一次
@@ -41,7 +48,11 @@ class Rose extends BaseController
         $params['created_id'] = 1;
 
         $res = $roseModel->addData($params);
-        return $res;
+        if ($res) {
+            return '超级管理员角色添加成功';
+        } else {
+            return '超级管理员角色添加失败';
+        }
     }
 
 }

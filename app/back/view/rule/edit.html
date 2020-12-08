@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑功能</title>
+	<link rel="stylesheet" href="/Static/layui/css/layui.css">
+	<style>
+		.layui-form{
+			width: 95%;
+			margin-top: 30px;
+		}
+		.end_btn{
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<form class="layui-form">
+		<div class="layui-form-item">
+		    <label class="layui-form-label">功能名称：</label>
+		    <div class="layui-input-block">
+		      	<input type="text" name="name" autocomplete="off" placeholder="必填" class="layui-input" lay-verify="required" value="{$cInfo.name}">
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">功能图标：</label>
+		    <div class="layui-input-block">
+		      	<input type="text" name="icon" autocomplete="off" id="iconFonts" value="fa-home" lay-filter="iconFonts">
+		      	<input type="hidden" id="myicon" value="{$cInfo.icon}">
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">父级分类：</label>
+		    <div class="layui-input-block">
+		    	<input type="hidden" id="mypid" value="{$cInfo.pid}">
+		        <select name="pid" id="pid" lay-verify="required" lay-search>
+		            {$clistHtml}
+		        </select> 
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">功能URL：</label>
+		    <div class="layui-input-block">
+		      	<input type="text" name="url" autocomplete="off" placeholder="必填，一级功能URL为/，其余 /back/index/index" class="layui-input" lay-verify="required" value="{$cInfo.url}">
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">功能排序：</label>
+		    <div class="layui-input-block">
+		      	<input type="text" name="sort" autocomplete="off" placeholder="同一父级下的排序" class="layui-input" value="{$cInfo.sort}">
+		    </div>
+		</div>
+		<div class="layui-form-item">
+		    <label class="layui-form-label">功能类型：</label>
+		    <div class="layui-input-block">
+		      <input type="radio" name="type" value="1" title="菜单" {if $cInfo.type eq 1} checked="" {/if}>
+		      <input type="radio" name="type" value="2" title="按钮" {if $cInfo.type eq 2} checked="" {/if}>
+		    </div>
+		</div>
+		
+		<div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">功能备注：</label>
+		    <div class="layui-input-block">
+		      	<textarea placeholder="请输入内容" class="layui-textarea" name="remark">{$cInfo.remark}</textarea>
+		</div>
+
+		<div class="layui-form-item end_btn">
+		    <div class="layui-input-block">
+		    	<input type="hidden" id="id" value="{$cInfo.id}">
+		    	<button class="layui-btn" lay-submit="" lay-filter="edit">保存</button>
+		    </div>
+		</div>
+	</form>
+
+	<script src="/Static/layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/Static/js/xadmin.js"></script>
+	<script>
+		layui.config({
+        	base: "/Static/layui/lay/modules/"
+	    }).extend({
+	        IconFonts: 'iconFonts',
+	    });
+
+		layui.use(['form', 'layer', 'IconFonts'], function () {
+			var $ = layui.jquery,
+				form = layui.form,
+				layer = layui.layer,
+				IconFonts = layui.IconFonts;
+
+			var myicon = $("#myicon").val(),
+				mypid = $("#mypid").val()
+				id = $("#id").val();
+			// 父级分类添加默认选中项
+			$("#pid option").each(function(){
+		        if($(this).val()==mypid){
+		            $(this).attr("selected", "true");
+		        }
+		    });
+		    form.render("select");
+			// $("#pid option[value='" + mypid + "']").prop("selected", true);
+			//图标选择器
+	        IconFonts.render({
+	            // 选择器，推荐使用input
+	            elem: '#iconFonts', //选择器ID
+	            // 数据类型：fontClass/layui_icon，
+	            type: 'fontClass',
+	            // 是否开启搜索：true/false
+	            search: true,
+	            // 是否开启分页
+	            page: true,
+	            // 每页显示数量，默认12
+	            limit: 12,
+	            // 点击回调
+	            click: function (data) {
+	                // console.log(data);
+	            }
+	        });
+
+	        // 默认选选中图标
+	        IconFonts.checkIcon("iconFonts", myicon, "fontClass");
+
+	        // 监听提交
+	        form.on('submit(edit)', function (obj) {
+	        	var data = obj.field;
+	        	data.id = id;
+	        	// 验证URL格式
+	        	var paturl = /^(\/)|(\/back\/([a-zA-Z]+)\/([a-zA-Z]+))$/i;
+	        	if (!paturl.test(data.url)) {
+	        		layer.msg('URL格式错误', {icon:2});
+	        		return false;
+	        	}
+	        	// 验证排序必须为非负整数
+	        	if (data.sort.length != 0) {
+	        		var patnum = /^\d+$/;
+	        		if (!patnum.test(data.sort)) {
+	        			layer.msg('功能排序只能为非负整数', {icon:2});
+	        			return false;
+	        		}
+	        	}
+	        	
+	        	$.ajax({
+	                url: '/back/category/edit',
+	                type: 'POST',
+	                data: data,
+	                dataType: 'json',
+	                success: function (res) {
+	                    if (res.code == 200) {
+	                    	layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+	                    		xadmin.close();
+	                    		xadmin.father_reload();
+	                    	});
+	                    } else {
+	                        layer.msg(res.msg, {icon: 2});
+	                    }
+	                },
+	                error: function () {
+	                    layer.msg('网络错误', {icon: 5});
+	                }
+	            });
+	            return false;
+	        })
+		})
+	</script>
+</body>
+</html>

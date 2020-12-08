@@ -12,6 +12,8 @@ use app\back\model\AdminModel;
  */
 class Admin extends BaseController
 {
+    protected $noNeedLogin = ['addSuperAdmin'];
+
     public function index()
     {
         return 'admin';
@@ -39,13 +41,17 @@ class Admin extends BaseController
         $params['phone'] = '';
         $pwd = '123456';
         $params['pwd_salt'] = bin2hex(random_bytes(3));
-        $params['password'] = setEncWord($params['pwd_salt'], $pwd, $params['phone']);
+        $params['password'] = set_enc_word($params['pwd_salt'], $pwd, 'back');
         $params['rose_id'] = 1;
         $params['created_at'] = time();
         $params['created_id'] = 1;
 
         $res = $adminModel->addData($params);
-        return $res;
+        if ($res) {
+            return '超级管理员添加成功';
+        } else {
+            return '超级管理员添加失败';
+        }
     }
 
 }

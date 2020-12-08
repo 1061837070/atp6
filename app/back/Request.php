@@ -5,5 +5,5 @@ namespace app\back;
 class Request extends \think\Request
 {
 	// 设置filter全局过滤属性：
-	protected $filter = ['htmlspecialchars'];
+	protected $filter = ['htmlspecialchars','trim'];
 }

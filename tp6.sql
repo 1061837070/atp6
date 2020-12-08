@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 04/12/2020 17:33:09
+ Date: 08/12/2020 18:36:11
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,6 @@ CREATE TABLE `tp6_admin`  (
   `header_pic` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '头像',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '账号状态，1正常，2禁用，默认1',
   `rose_id` tinyint(4) NOT NULL COMMENT '账号角色id，对应角色表id',
-  `extra_category_id` varchar(500) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '除角色含有的权限，额外的权限id',
   `remark` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL COMMENT '备注描叙',
   `created_at` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `created_id` int(10) NULL DEFAULT NULL COMMENT '创建此账号的管理员id',
@@ -44,7 +43,7 @@ CREATE TABLE `tp6_admin`  (
 -- ----------------------------
 -- Records of tp6_admin
 -- ----------------------------
-INSERT INTO `tp6_admin` VALUES (1, 'admin', 'admin', '', 'cd447984a1abd6d36c32815fbdf11e24', '4fcd2e', NULL, NULL, 1, 1, NULL, NULL, 1607068229, 1, NULL, NULL);
+INSERT INTO `tp6_admin` VALUES (1, 'admin', 'admin', '', 'df78f25a8179efcbeb30570f74b0972a', '6c6a99', NULL, NULL, 1, 1, NULL, 1607398893, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tp6_rose
@@ -66,7 +65,7 @@ CREATE TABLE `tp6_rose`  (
 -- ----------------------------
 -- Records of tp6_rose
 -- ----------------------------
-INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1607068274, 1, NULL, NULL);
+INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1607394001, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tp6_rule
@@ -79,17 +78,37 @@ CREATE TABLE `tp6_rule`  (
   `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '权限URL',
   `sort` tinyint(4) NOT NULL DEFAULT 0 COMMENT '同一父级下的排序',
   `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1：菜单，2：按钮',
-  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '备注',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '功能状态：1正常，2禁用，默认1',
-  `created_at` int(10) NULL DEFAULT NULL,
-  `created_id` int(10) NULL DEFAULT NULL COMMENT '添加此功能的管理员id',
+  `remark` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '备注',
+  `created_at` int(10) NOT NULL,
+  `created_id` int(10) NOT NULL COMMENT '添加此功能的管理员id',
   `updated_at` int(10) NULL DEFAULT NULL,
   `updated_id` int(10) NULL DEFAULT NULL COMMENT '最后一次修改此功能的管理id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '后台功能规则表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '后台功能规则表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tp6_rule
 -- ----------------------------
+INSERT INTO `tp6_rule` VALUES (1, 0, '系统设置', '/', 1, 1, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (2, 1, '功能菜单', '/back/rule/index', 1, 1, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (3, 1, '角色管理', '/back/rose/index', 2, 1, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (4, 1, '管理员管理', '/back/admin/index', 3, 1, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (5, 2, '添加功能', '/back/rule/add', 1, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (6, 2, '编辑功能', '/back/rule/edit', 2, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (7, 2, '禁用功能', '/back/rule/stop', 3, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (8, 2, '启用功能', '/back/rule/start', 4, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (9, 2, '删除功能', '/back/rule/del', 5, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (10, 3, '添加角色', '/back/rose/add', 1, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (11, 3, '编辑角色', '/back/rose/edit', 2, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (12, 3, '分配权限', '/back/rose/setRule', 3, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (13, 3, '删除角色', '/back/rose/del', 4, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (14, 4, '添加管理员', '/back/admin/add', 1, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (15, 4, '编辑管理员', '/back/admin/edit', 2, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (16, 4, '分配角色', '/back/admin/setRose', 3, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (17, 4, '重置密码', '/back/admin/resetPwd', 4, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (18, 4, '禁用', '/back/admin/stop', 5, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (19, 4, '启用', '/back/admin/start', 6, 2, 1, NULL, 1607396066, 1, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (20, 4, '删除管理员', '/back/admin/del', 7, 2, 1, NULL, 1607396066, 1, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
