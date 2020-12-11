@@ -45,8 +45,11 @@ abstract class BaseController
 
     /**
      * 构造方法
-     * @access public
-     * @param  App  $app  应用对象
+     * BaseController constructor.
+     * @param App $app 应用对象
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function __construct(App $app)
     {
@@ -92,8 +95,11 @@ abstract class BaseController
                 $url = str_replace('/','*','/back/login');
                 $urlstr = '/urlstr/'.$url;
                 $btnstr = '/btnstr/登录';
-
-                redirect('/back/err/err'.$icon.$msgstr.$urlstr.$btnstr)->send();
+                if (request()->isAjax()) {
+                    return json(['code' => 400, 'msg' => '您未登录，请登录后操作']);
+                } else {
+                    redirect('/back/err/err'.$icon.$msgstr.$urlstr.$btnstr)->send();
+                }
                 die();
             }
         } else {
@@ -115,6 +121,9 @@ abstract class BaseController
      * 展示的操作按钮 按钮的lay-event=""名和$action名必须一致才能生成功能按钮
      * @param array $dbtns 默认展示的功能按钮 编辑，删除，['edit','del']
      * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
      */
     public function show_btn($dbtns = [])
     {
