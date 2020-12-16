@@ -18,12 +18,10 @@ class Rule extends BaseController
     protected $noNeedLogin = ['addBaseRule'];
 
     /**
-     * 功能菜单列表页
-     * @return \think\response\Json|\think\response\View|void
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     */
+     * @msg: 功能菜单列表页
+     * @param {*}
+     * @return {*}
+     */   
     public function index()
     {
         if (request()->isAjax()) {
@@ -61,6 +59,11 @@ class Rule extends BaseController
         return view('index',['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
     }
 
+    /**
+     * @msg: 添加功能
+     * @param {*}
+     * @return {*}
+     */
     function add ()
     {
         if (request()->isAjax()) {
@@ -118,6 +121,13 @@ class Rule extends BaseController
      * @param int $level
      * @return array
      */
+    /**
+     * @msg: 生成无限极，带前置标识的树形数组
+     * @param array $cats   二维数组
+     * @param int   $pid    pid，默认0
+     * @param int   $level  级别标识，用于添加前置标识
+     * @return array  带前置标识的无限极数组
+     */
     function catsList(array $cats, $pid = 0, $level = 1)
     {
         $result = [];
@@ -139,11 +149,9 @@ class Rule extends BaseController
     }
 
     /**
-     * 初始化添加基础功能菜单
-     * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 初始化添加基础功能菜单
+     * @param {*}
+     * @return {*}
      */
     function addBaseRule ()
     {

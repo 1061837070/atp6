@@ -44,12 +44,9 @@ abstract class BaseController
     protected $noNeedLogin = [];
 
     /**
-     * 构造方法
-     * BaseController constructor.
-     * @param App $app 应用对象
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 构造方法
+     * @param {$app 应用对象}
+     * @return {*}
      */
     public function __construct(App $app)
     {
@@ -61,10 +58,9 @@ abstract class BaseController
     }
 
     /**
-     * 初始化
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 前置操作
+     * @param {*}
+     * @return {*}
      */
     protected function initialize()
     {
@@ -118,12 +114,9 @@ abstract class BaseController
     }
 
     /**
-     * 展示的操作按钮 按钮的lay-event=""名和$action名必须一致才能生成功能按钮
-     * @param array $dbtns 默认展示的功能按钮 编辑，删除，['edit','del']
-     * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 展示的操作按钮 按钮的lay-event=""名和$action名必须一致才能生成功能按钮
+     * @param {array $dbtns  默认展示的功能按钮 编辑，删除，['edit','del']}
+     * @return {*}
      */
     public function show_btn($dbtns = [])
     {
