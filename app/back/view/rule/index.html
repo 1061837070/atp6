@@ -123,12 +123,12 @@
                 var data = obj.data;
                 switch (obj.event) {
                     case 'edit':
-                        parent.xadmin.open('编辑功能','/back/category/edit?id='+data.id, 600, 600);
+                        parent.xadmin.open('编辑功能','/back/rule/edit?id='+data.id, 600, 600);
                         break;
                     case 'del':
                         layer.confirm('确定删除？', {icon: 3}, function(){
                             $.ajax({
-                                url: '/back/category/del',
+                                url: '/back/rule/del',
                                 type: 'POST',
                                 data: data,
                                 dataType: 'json',
@@ -150,7 +150,7 @@
                     case 'stop':
                         layer.confirm('禁用后功能无法使用，当禁用功能有子功能时，子功能亦被禁用，确认禁用？', {icon: 3}, function(){
                             $.ajax({
-                                url: '/back/category/stop',
+                                url: '/back/rule/stop',
                                 type: 'POST',
                                 data: {'id': data.id},
                                 dataType: 'json',
@@ -171,7 +171,7 @@
                         break;
                     case 'start':
                         $.ajax({
-                            url: '/back/category/start',
+                            url: '/back/rule/start',
                             type: 'POST',
                             data: {'id': data.id},
                             dataType: 'json',

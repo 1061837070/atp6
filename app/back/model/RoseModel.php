@@ -1,4 +1,7 @@
 <?php
+/*
+ * @Descripttion: 
+ */
 declare (strict_types = 1);
 
 namespace app\back\model;
@@ -14,9 +17,9 @@ class RoseModel extends Model
     protected $name = 'rose';
 
     /**
-     * 添加
-     * @param array $data
-     * @return RoseModel|Model
+     * @msg: 添加单条
+     * @param array $data 添加的数据
+     * @return {*}
      */
     public function addData(array $data)
     {
@@ -24,12 +27,9 @@ class RoseModel extends Model
     }
 
     /**
-     * 单条查询
-     * @param array $where
-     * @return array
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 单条查询
+     * @param array $where = [] 查询条件，默认为空
+     * @return {*}
      */
     public function getInfo(array $where = [])
     {

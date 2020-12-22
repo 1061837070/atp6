@@ -96,32 +96,160 @@ class Rule extends BaseController
                     if ($params['type'] == 2) {
                         return json(['code' => 400, 'msg' => '二级分类不能为按钮']);
                     }
+                } else {
+                    $ppinfo = $ruleModel->getInfo(['id' => $pinfo['pid']]);
+                    if ($ppinfo['pid'] == 0) {
+                        if ($params['type'] != 2) {
+                            return json(['code' => 400, 'msg' => '三级分类必须为按钮']);
+                        }
+                    }
                 }
             }
 
             //功能名称，url是否已存在
             $exit1 = $ruleModel->getInfo(['name' => $params['name']]);
+            if (!empty($exit1)) {
+                return json(['code' => 400, 'msg' => '功能名称已存']);
+            }
+            $exit2 = $ruleModel->getInfo(['url' => $params['url']]);
+            if ($params['pid'] != 0 && !empty($exit2)) {
+                return json(['code' => 400, 'msg' => '功能URL已存']);
+            }
 
-            p($pinfo);
+            // 添加数据
+            $params['created_at'] = time();
+            $params['created_id'] = session('adminid');
+            
+            $res = $ruleModel->addData($params);
+            if ($res) {
+                return json(['code' => 200, 'msg' => '添加成功']);
+            } else {
+                return json(['code' => 400, 'msg' => '添加失败']);
+            }
         }
 
         $ruleModel = new RuleModel;
         $list = $ruleModel->getAllList(['type' => 1, 'status' => 1]);
         $listTrr = cats_tree($list);
-        $html = build_html($listTrr);
+        $html = build_tree_html($listTrr);
         $showHtml = '<option value="0">顶级分类</option>'.$html;
 
         return view('add', ['showHtml'=>$showHtml]);
     }
 
     /**
+     * @msg: 编辑功能
+     * @param {*}
+     * @return {*}
+     */
+    public function edit()
+    {   
+        $ruleModel = new RuleModel;
+        if (request()->isAjax()) {
+            $params = request()->param();
+            $params = trim_arr($params);
+            try {
+                validate(Vrule::class)->check([
+                    'name'  => $params['name'],
+                    'pid' => $params['pid'],
+                    'url' => $params['url'],
+                    'sort' => $params['sort'],
+                    'type' => $params['type']
+                ]);
+            } catch (ValidateException $e) {
+                return json(['code' => 400, 'msg' => $e->getError()]);
+            }
+
+            $ruleModel = new RuleModel;
+            //一二级分类不能为按钮
+            if ($params['pid'] == 0) {
+                if ($params['type'] == 2) {
+                    return json(['code' => 400, 'msg' => '一级分类不能为按钮']);
+                }
+            } else {
+                // 选择的父级的详情
+                $pinfo = $ruleModel->getInfo(['id' => $params['pid']]);
+                if ($pinfo['pid'] == 0) {
+                    if ($params['type'] == 2) {
+                        return json(['code' => 400, 'msg' => '二级分类不能为按钮']);
+                    }
+                } else {
+                    $ppinfo = $ruleModel->getInfo(['id' => $pinfo['pid']]);
+                    if ($ppinfo['pid'] == 0) {
+                        if ($params['type'] != 2) {
+                            return json(['code' => 400, 'msg' => '三级分类必须为按钮']);
+                        }
+                    }
+                }
+            }
+
+            // 不能选择自身及后代作为父级分类
+            $ruleId = intval(trim($params['id']));
+            // unset($params['id']);
+
+            $list = $ruleModel->getAllList(['type' => 1, 'status' => 1]);
+            $child = cats_tree($list, $ruleId);
+            $childIdArr = array_column($child, 'id');
+            array_push($childIdArr, $ruleId);
+            if (in_array($params['pid'], $childIdArr)) {
+                return json(['code' => 400, 'msg' => '不能选择自身及后代功能作为父级功能']);
+            }
+            //功能名称，url是否已存在
+            $exit1 = $ruleModel->checkExit(['name' => $params['name']], $ruleId);
+            if ($exit1) {
+                return json(['code' => 400, 'msg' => '功能名称已存']);
+            }
+            $exit2 = $ruleModel->checkExit(['url' => $params['url']], $ruleId);
+            if ($params['pid'] != 0 && $exit2) {
+                return json(['code' => 400, 'msg' => '功能URL已存']);
+            }
+            
+            // 修改数据
+            $res = $ruleModel->upData($params);
+            if ($res) {
+                return json(['code' => 200, 'msg' => '修改成功']);
+            } else {
+                return json(['code' => 400, 'msg' => '修改失败']);
+            }
+        }
+
+        $params = request()->param();
+        $ruleId = intval(trim($params['id']));
+        // 编辑的功能详情
+        $ruleInfo = $ruleModel->getInfo(['id' => $ruleId]);
+        if (empty($ruleInfo)) {
+            $icon = '/iconstr/layui-icon-face-cry';
+            $msgstr = '/msgstr/编辑的功能信息详情不存在，请重新确认';
+            $url = str_replace('/','*','/back/login');
+            $urlstr = '/urlstr/'.$url;
+            redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
+        }
+        // 当前功能详情的后代功能及自身id
+        $list = $ruleModel->getAllList(['type' => 1, 'status' => 1]);
+        $child = cats_tree($list, $ruleId);
+        $childIdArr = array_column($child, 'id');
+        array_push($childIdArr, $ruleId);
+        // 生成带禁止选择和已选的下拉选择内容页面元素
+        $listTree = cats_tree($list);
+        $html = build_tree_with_disabled_selected_html($listTree, $mark = 1, $childIdArr, $ruleInfo['pid']);
+        if ($ruleInfo['pid'] == 0) {
+            $h = '<option value="0" selected>顶级分类</option>';
+        } else {
+            $h = '<option value="0">顶级分类</option>';
+        }
+        $optionHtml = $h.$html;
+
+        return view('edit', ['optionHtml'=>$optionHtml, 'ruleInfo'=>$ruleInfo]);
+    }
+
+    /**
      * @msg: 生成无限极，带前置标识的树形数组
      * @param array $cats   二维数组
      * @param int   $pid    pid，默认0
-     * @param int   $level  级别标识，用于添加前置标识
-     * @return array  带前置标识的无限极数组
+     * @param int   $level  级别标识，用于添加前置标识,默认1
+     * @return 带前置标识的无限极数组
      */
-    function catsList(array $cats, $pid = 0, $level = 1)
+    function catsList(array $cats, int $pid = 0, int $level = 1)
     {
         $result = [];
         foreach ($cats as $k => $v) {

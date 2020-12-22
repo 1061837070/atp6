@@ -88,7 +88,7 @@ if (!function_exists('tree_to_two')) {
     }
 }
 
-if (!function_exists('build_html')) {
+if (!function_exists('build_tree_html')) {
     /**
      * 构建树形结构数组的下拉选择页面
      * @param array $arr 树形结构数组
@@ -96,7 +96,7 @@ if (!function_exists('build_html')) {
      * @param int $mark 分类级别 默认一级 用于在级别名称前添加--样式
      * @return string
      */
-    function build_html(array $arr, int $isDisabled = 0, int $mark = 1)
+    function build_tree_html(array $arr, int $isDisabled = 0, int $mark = 1)
     {
         $html = '';
         foreach ($arr as $k => $v) {
@@ -111,11 +111,52 @@ if (!function_exists('build_html')) {
 
             if (!empty($v['children']) && $isDisabled != 0) {
                 $html .= '<option value="'.$v['id'].'" disabled>'.$sign.$v['name'].'</option>';
-                $childhtml = build_html($v['children'], $isDisabled, $mark + 1);
+                $childhtml = build_tree_html($v['children'], $isDisabled, $mark + 1);
                 $html .= $childhtml;
             } else {
                 $html .= '<option value="'.$v['id'].'">'.$sign.$v['name'].'</option>';
-                $childhtml = build_html($v['children'], $isDisabled, $mark + 1);
+                $childhtml = build_tree_html($v['children'], $isDisabled, $mark + 1);
+                $html .= $childhtml;
+            }
+        }
+        return $html;
+    }
+}
+
+if (!function_exists('build_tree_with_disabled_selected_html')) {
+    /**
+     * @msg: 根据禁选内容将待选内容生成下拉选择项页面元素，禁选内容添加禁选效果，
+     * @param array $arr         待选内容，生成页面元素
+     * @param int   $mark        级别 默认一级 用于在级别名称前添加--样式
+     * @param array $idArr       添加disabled样式的内容的id
+     * @param int   $selectedId  添加选中效果的内容id，默认unll
+     * @return {*}
+     */
+    function build_tree_with_disabled_selected_html(array $arr, int $mark = 1, array $idArr, int $selectedId = null)
+    {
+        $html = '';
+        foreach ($arr as $k => $v) {
+            if (in_array($v['id'], $idArr)) {
+                $disabled = 'disabled';
+            } else {
+                $disabled = '';
+            }
+            if ($mark == 1) {
+                $sign = '';
+            } else {
+                $sign = '';
+                for ($i=1; $i < $mark; $i++) { 
+                    $sign .= ' - - ';
+                }
+            }
+            if ($v['id'] == $selectedId) {
+                $selected = 'selected';
+            } else {
+                $selected = '';
+            }                            
+            $html .= '<option value="'.$v['id'].'"'.$disabled.$selected.'>'.$sign.$v['name'].'</option>';
+            if (!empty($v['children'])) {
+                $childhtml = build_tree_with_disabled_selected_html($v['children'], $mark + 1, $idArr, $selectedId);
                 $html .= $childhtml;
             }
         }
