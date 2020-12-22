@@ -13,6 +13,11 @@ use app\back\model\RuleModel;
  */
 class Index extends BaseController
 {
+    /**
+     * @msg: 后台左侧菜单栏
+     * @param {*}
+     * @return {*}
+     */
     public function index()
     {
         // 当前登录的管理员详情
@@ -38,11 +43,21 @@ class Index extends BaseController
         return view('index', ['menu' => $menu]);
     }
 
+    /**
+     * @msg: 进入后台时默认显示页面
+     * @param {*}
+     * @return {*}
+     */
     public function welcome()
     {
         return view();
     }
 
+    /**
+     * @msg: 将菜单数组渲染成菜单页面元素
+     * @param {*}
+     * @return {*}
+     */
     public function build_menu($treeArr)
     {
         $html = '';

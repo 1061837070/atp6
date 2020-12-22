@@ -125,12 +125,10 @@ if (!function_exists('build_html')) {
 
 if (!function_exists('trim_arr')) {
     /**
-     * 构建树形结构数组的下拉选择页面
-     * @param array $arr 树形结构数组
-     * @param int $isDisabled 有子级的父级是否添加disabled样式，默认0，不添加
-     * @param int $mark 分类级别 默认一级 用于在级别名称前添加--样式
-     * @return string
-     */
+     * @msg: 去掉数组的元素两端的空格
+     * @param {array $arr}
+     * @return {array}
+     */    
     function trim_arr(array $arr)
     {
         foreach ($arr as $k => $v) {

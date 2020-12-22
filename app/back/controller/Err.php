@@ -1,4 +1,7 @@
 <?php
+/*
+ * @Descripttion: 
+ */
 declare (strict_types = 1);
 
 namespace app\back\controller;
@@ -13,6 +16,11 @@ class Err extends BaseController
 {
     protected $noNeedLogin = ['err'];
 
+    /**
+     * @msg: 公告错误信息提示页面
+     * @param {*}
+     * @return {*}
+     */
     function err ()
     {
         $params = request()->param();

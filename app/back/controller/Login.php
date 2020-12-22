@@ -1,4 +1,7 @@
 <?php
+/*
+ * @Descripttion: 
+ */
 declare (strict_types = 1);
 
 namespace app\back\controller;
@@ -16,6 +19,11 @@ class Login extends BaseController
 {
     protected $noNeedLogin = ['login'];
 
+    /**
+     * @msg: 登录
+     * @param {*}
+     * @return {*}
+     */
     function login()
     {
         if (request()->isAjax()) {

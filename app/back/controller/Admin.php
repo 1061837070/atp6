@@ -20,11 +20,9 @@ class Admin extends BaseController
     }
 
     /**
-     * 添加超级管理员 初始化时直接浏览器地址操作 只能添加一次
-     * @return AdminModel|string|\think\Model
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 添加超级管理员 初始化时直接浏览器地址操作 只能添加一次
+     * @param {*}
+     * @return {*}
      */
     public function addSuperAdmin()
     {

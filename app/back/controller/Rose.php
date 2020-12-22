@@ -1,4 +1,7 @@
 <?php
+/*
+ * @Descripttion: 
+ */
 declare (strict_types = 1);
 
 namespace app\back\controller;
@@ -25,11 +28,9 @@ class Rose extends BaseController
 
 
     /**
-     * 后台添加超级管理员角色角色 初始化时直接浏览器地址操作  只能一次
-     * @return RoseModel|string|\think\Model
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
+     * @msg: 后台添加超级管理员角色角色 初始化时直接浏览器地址操作  只能一次
+     * @param {*}
+     * @return {*}
      */
     public function addSuperRose()
     {

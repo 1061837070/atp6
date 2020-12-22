@@ -115,13 +115,6 @@ class Rule extends BaseController
     }
 
     /**
-     * 生成无限极，带前置表示的树形数组
-     * @param array $cats
-     * @param int $pid
-     * @param int $level
-     * @return array
-     */
-    /**
      * @msg: 生成无限极，带前置标识的树形数组
      * @param array $cats   二维数组
      * @param int   $pid    pid，默认0
