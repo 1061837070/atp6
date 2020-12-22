@@ -1,3 +1,6 @@
+<!--
+ * @Descripttion: 
+-->
 <!-- 引入模板公共头部 -->
 {include file='common/header'}
 <body class="index">
@@ -35,7 +38,25 @@
     <div class="left-nav">
         <div id="side-nav">
             <ul id="nav">
-                {$menu|raw}
+                {foreach $listTree as $v}
+                <li>
+                    <a href="javascript:;">
+                        <cite>{$v.name}</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        {if $v.children|@count neq 0}
+                        {foreach $v['children'] as $v2}
+                        <li>
+                            <a onclick="xadmin.add_tab('{$v2.name}','{$v2.url}',true)">
+                                <cite>{$v2.name}</cite>
+                            </a>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </li>
+                {/foreach}
             </ul>
         </div>
     </div>
