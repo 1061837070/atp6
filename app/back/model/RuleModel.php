@@ -1,10 +1,4 @@
 <?php
-/*
- * @Descripttion: 
- */
-/*
- * @Descripttion: 
- */
 declare (strict_types = 1);
 
 namespace app\back\model;
@@ -61,8 +55,8 @@ class RuleModel extends Model
         return $res ? $res->toArray() : [];
     }
 
-    /**更新单条数据
-     * @msg: 
+    /**
+     * @msg: 更新单条数据
      * @param array $data 带主键的更新数据，
      * @return {*}
      */
@@ -72,6 +66,27 @@ class RuleModel extends Model
         $data['updated_id'] = session('adminid');
         $res = self::update($data);
         return $res ? $res->toArray() : [];
+    }
+
+    /**
+     * @msg: 更新多条数据
+     * @param array $data 更新的多条数据的二维数组，每个数组包含主键
+     * @return {*}
+     */
+    public function upDatas(array $data)
+    {
+        $res = self::saveAll($data);
+        return $res ? $res->toArray() : [];
+    }
+
+    /**
+     * @msg: 根据条件删除数据
+     * @param array $where  查询条件，查询出需要删除的数据
+     * @return {*}
+     */
+    public function delData(array $where = [])
+    {
+        return self::where($where)->delete();
     }
 
     /**

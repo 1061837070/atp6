@@ -178,3 +178,26 @@ if (!function_exists('trim_arr')) {
         return $arr;
     }
 }
+
+if (!function_exists('get_childs_id_str')) {
+    /**
+     * @msg: 获取指定pid分类的所有后代分类id
+     * @param array $arr 后代分类的多维数组
+     * @param int   $pid 指定的pid
+     * @return {*}
+     */
+    function get_childs_id_str(array $arr, int $pid)
+    {
+        $result = '';
+        foreach ($arr as $k => $v) {
+            if ($v['pid'] == $pid) {
+                $result .= $v['id'].',';
+                if (!empty($v['children'])) {
+                    $n = get_childs_id_str($v['children'], $v['id']);
+                    $result .= $n;
+                }
+            }
+        }
+        return $result;
+    }
+}

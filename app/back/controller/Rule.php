@@ -218,11 +218,12 @@ class Rule extends BaseController
         // 编辑的功能详情
         $ruleInfo = $ruleModel->getInfo(['id' => $ruleId]);
         if (empty($ruleInfo)) {
-            $icon = '/iconstr/layui-icon-face-cry';
+            $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/编辑的功能信息详情不存在，请重新确认';
             $url = str_replace('/','*','/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
+            die();
         }
         // 当前功能详情的后代功能及自身id
         $list = $ruleModel->getAllList(['type' => 1, 'status' => 1]);
@@ -240,6 +241,125 @@ class Rule extends BaseController
         $optionHtml = $h.$html;
 
         return view('edit', ['optionHtml'=>$optionHtml, 'ruleInfo'=>$ruleInfo]);
+    }
+
+    /**
+     * @msg: 禁用功能
+     * @param {*}
+     * @return {*}
+     */
+    public function stop()
+    {
+        if (request()->isAjax()) {
+            $params = request()->param();
+
+            $ruleModel = new RuleModel;
+            // 禁用的功能的详情
+            $ruleId = intval($params['id']);
+            $ruleInfo = $ruleModel->getInfo(['id' => $ruleId]);
+            if (empty($ruleInfo)) {
+                return json(['code' => 400, 'msg' => '禁用的功能不存在，请刷新页面后再操作']);
+            }
+
+            // 禁用的功能的状态
+            if ($ruleInfo['status'] == 2) {
+                return json(['code' => 400, 'msg' => '此功能已禁用，请勿再次操作']);
+            }
+
+            // 禁用功能及其后代功能id
+            $list = $ruleModel->getAllList(['status' => 1]);
+            $child = cats_tree($list, $ruleId);
+            $childIdStr = get_childs_id_str($child, $ruleId);
+            $childIdStr2 = trim($childIdStr, ',');
+            $childIdArr = explode(',', $childIdStr2);
+            array_push($childIdArr, $ruleId);
+
+            // 循环生成更新数据
+            $updata = [];
+            $uptime = time();
+            $upadmin = session('adminid');
+            foreach ($childIdArr as $k => $v) {
+                $updata[$k]['id'] = $v;
+                $updata[$k]['status'] = 2;
+                $updata[$k]['updated_at'] = $uptime;
+                $updata[$k]['updated_id'] = $upadmin;
+            }
+            
+            // 修改数据
+            $res = $ruleModel->upDatas($updata);
+            if ($res) {
+                return json(['code' => 200, 'msg' => '修改成功']);
+            } else {
+                return json(['code' => 400, 'msg' => '修改失败']);
+            }
+        }
+    }
+
+    /**
+     * @msg: 启用功能
+     * @param {*}
+     * @return {*}
+     */
+    public function start()
+    {
+        if (request()->isAjax()) {
+            $params = request()->param();
+
+            $ruleModel = new RuleModel;
+            // 启用的功能的详情
+            $ruleId = intval($params['id']);
+            $ruleInfo = $ruleModel->getInfo(['id' => $ruleId]);
+            if (empty($ruleInfo)) {
+                return json(['code' => 400, 'msg' => '启用的功能不存在，请刷新页面后再操作']);
+            }
+            
+            // 启用的功能的状态
+            if ($ruleInfo['status'] == 1) {
+                return json(['code' => 400, 'msg' => '此功能已启用，请勿再次操作']);
+            }
+
+            // 修改数据
+            $res = $ruleModel->upData(['id' => $ruleId, 'status' => 1]);
+            if ($res) {
+                return json(['code' => 200, 'msg' => '修改成功']);
+            } else {
+                return json(['code' => 400, 'msg' => '修改失败']);
+            }
+        }
+    }
+
+    /**
+     * @msg: 删除功能
+     * @param {*}
+     * @return {*}
+     */
+    public function del()
+    {
+        if (request()->isAjax()) {
+            $params = request()->param();
+
+            $ruleModel = new RuleModel;
+            // 删除的功能的详情
+            $ruleId = intval($params['id']);
+            $ruleInfo = $ruleModel->getInfo(['id' => $ruleId]);
+            if (empty($ruleInfo)) {
+                return json(['code' => 400, 'msg' => '删除的功能不存在，请刷新页面后再操作']);
+            }
+
+            // 删除的功能的后代
+            $child = $ruleModel->getInfo(['pid' => $ruleId]);
+            if (!empty($child)) {
+                return json(['code' => 400, 'msg' => '删除的功能存在下级功能，不能直接删除']);
+            }
+
+            // 删除数据
+            $res = $ruleModel->delData(['id' => $ruleId]);
+            if ($res) {
+                return json(['code' => 200, 'msg' => '修改成功']);
+            } else {
+                return json(['code' => 400, 'msg' => '修改失败']);
+            }
+        }
     }
 
     /**

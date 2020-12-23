@@ -100,7 +100,7 @@
             table.on('toolbar(list)', function (obj) {
                 switch (obj.event) {
                     case 'refresh':
-                        tblIns.reload();
+                        location.reload();
                         break;
                     case 'add':
                         parent.xadmin.open('添加功能','/back/rule/add', 600, 600);
@@ -126,11 +126,11 @@
                         parent.xadmin.open('编辑功能','/back/rule/edit?id='+data.id, 600, 600);
                         break;
                     case 'del':
-                        layer.confirm('确定删除？', {icon: 3}, function(){
+                        layer.confirm('确定删除？存在下级功能的功能不能直接删除', {icon: 3}, function(){
                             $.ajax({
                                 url: '/back/rule/del',
                                 type: 'POST',
-                                data: data,
+                                data: {'id': data.id},
                                 dataType: 'json',
                                 success: function (res) {
                                     if (res.code == 200) {
@@ -148,7 +148,7 @@
                         })
                         break;
                     case 'stop':
-                        layer.confirm('禁用后功能无法使用，当禁用功能有子功能时，子功能亦被禁用，确认禁用？', {icon: 3}, function(){
+                        layer.confirm('禁用后功能无法使用，当禁用功能有下级功能时，下级功能亦被禁用，确认禁用？', {icon: 3}, function(){
                             $.ajax({
                                 url: '/back/rule/stop',
                                 type: 'POST',

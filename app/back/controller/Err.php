@@ -1,7 +1,4 @@
 <?php
-/*
- * @Descripttion: 
- */
 declare (strict_types = 1);
 
 namespace app\back\controller;
