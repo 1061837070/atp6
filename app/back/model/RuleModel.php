@@ -2,6 +2,9 @@
 /*
  * @Descripttion: 
  */
+/*
+ * @Descripttion: 
+ */
 declare (strict_types = 1);
 
 namespace app\back\model;
@@ -33,7 +36,7 @@ class RuleModel extends Model
      */
     function getAllList (array $where = [])
     {
-        $list = self::where($where)->order(['id','sort'])->select();
+        $list = self::where($where)->order('sort')->select();
         return $list ? $list->toArray() : [];
     }
 
