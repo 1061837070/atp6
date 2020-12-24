@@ -71,7 +71,6 @@ abstract class BaseController
         $adminModel = new AdminModel;
         $adminid = session('adminid');
         $adminInfo = $adminModel->getInfo(['id' => $adminid]);
-
         // 登录操作检测
         $isMachEnckey = false;
         if (!empty($adminInfo)) {

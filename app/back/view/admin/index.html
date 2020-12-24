@@ -1,5 +1,10 @@
 <!-- 引入模板公共头部 -->
 {include file='common/header'}
+<style>
+    .header_pic{
+        cursor: pointer;
+    }
+</style>
 <body>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -19,7 +24,7 @@
 
                 <div class="layui-card">
                     <div class="layui-card-body ">
-                        <table class="layui-table" id="roseList" lay-filter="list"></table>
+                        <table class="layui-table" id="adminList" lay-filter="list"></table>
                     </div>
                     <input type="hidden" id="isOperate" value="{$isOperate}">
                 </div>
@@ -28,46 +33,62 @@
     </div>
 
     <script>
-        layui.use(['table','util'], function () {
+        layui.use(['table','util','layer'], function () {
             var table = layui.table,
                 util = layui.util,
+                layer = layui.layer,
                 $ = layui.$;
             var isOperate = $("#isOperate").val();
             var cols = [
                     {field: 'id', title: 'ID', width: 50, align: 'center'},
-                    {field: 'name', title: '角色名称'},
-                    {field: 'sort', title: '排序', width: 60},
-                    {field: 'cname', title: '创建'},
-                    {field: 'created_at', title: '创建时间', width: 150, templet: function(d){
-                        return util.toDateString(d.created_at*1000)
-                    }},
-                    {field: 'uname', title: '最后一次更新'},
-                    {field: 'updated_at', title: '最后一次更新时间', width: 150, templet: function(d){
-                        if(d.updated_at != null){
-                            return util.toDateString(d.updated_at*1000)
+                    {field: 'nick_name', title: '昵称'},
+                    {field: 'rose_name', title: '角色', minWidth: 80},
+                    {field: 'header_pic', title: '头像', width: 77, templet: function(d) {
+                        if (d.header_pic.length == 0) {
+                            return '<img src="/Static/images/header.jpg" height="40" class="header_pic" onclick="bigShow(this)" />';
                         } else {
-                            return ''
+                            return '<img src="'+d.header_pic+'" height="40" class="header_pic" onclick="bigShow(this)" />';
+                        }
+                    }},
+                    {field: 'phone', title: '手机号', width: 110},
+                    {field: 'status', title: '状态', width: 60, templet: function(d){
+                        if (d.status == 1) {
+                            return '<span style="color: #1E9FFF;">正常</span>';
+                        } else {
+                            return '<span style="color: red;">禁用</span>';
+                        }
+                    }},
+                    {field: 'cname', title: '创建', minWidth: 230, templet: function(d){
+                        return '【' + util.toDateString(d.created_at*1000) + '】' + '【' + d.cname + '】'; 
+                    }},
+                    {field: '', title: '最后一次修改', minWidth: 230, templet: function(d){
+                        if (d.updated_at) {
+                            return '【' + util.toDateString(d.updated_at*1000) + '】' + '【' + d.uname + '】';
+                        } else {
+                            return '';
                         }
                     }},
                     {field: 'remark', title: '备注'}
                 ];
             if (isOperate == 1) {
-                cols.push({width: 210, toolbar: '#bar', title: '操作'})
+                cols.push({width: 340, toolbar: '#bar', title: '操作'})
             }
 
             //初始化表格数据
             var tblIns = table.render({
-                elem: '#roseList',
+                elem: '#adminList',
                 toolbar: '#tblToolbar',
-                url: '/back/rose/index',
+                url: '/back/admin/index',
                 done: function (res, curr, count) {
                     var that = this.elem.next();
                     res.data.forEach(function (element, index) {
-                        if (element.id == 1 && element.name == '超级管理员') {
+                        if (element.status == 1) {
                             var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']");
-                            tr.children("td:last-child").find('.edit').remove();
-                            tr.children("td:last-child").find('.setRule').remove();
-                            tr.children("td:last-child").find('.del').remove();
+                            tr.children("td:last-child").find('.start').remove();
+                        }
+                        if (element.status == 2) {
+                            var tr = that.find(".layui-table-box tbody tr[data-index='" + index + "']");
+                            tr.children("td:last-child").find('.stop').remove();
                         }
                     });
                 },
@@ -92,7 +113,7 @@
                         tblIns.reload();
                         break;
                     case 'add':
-                        parent.xadmin.open('添加角色','/back/rose/add', 600, 400);
+                        parent.xadmin.open('添加管理员','/back/admin/add', 600, 600);
                         break;
                 };
             });
@@ -102,12 +123,12 @@
                 var data = obj.data;
                 switch (obj.event) {
                     case 'edit':
-                        parent.xadmin.open('编辑角色','/back/rose/edit?id='+data.id, 600, 400);
+                        parent.xadmin.open('编辑管理员','/back/admin/edit?id='+data.id, 600, 600);
                         break;
                     case 'del':
                         layer.confirm('确定删除？', {icon: 3}, function(){
                             $.ajax({
-                                url: '/back/rose/del',
+                                url: '/back/admin/del',
                                 type: 'POST',
                                 data: {'id': data.id},
                                 dataType: 'json',
@@ -126,11 +147,20 @@
                             });
                         })
                         break;
-                    case 'setRule':
-                        parent.xadmin.add_tab('分配权限','/back/rose/setRule?id='+data.id,true)
-                        break;
                 };
             });
+            
+            // 图片放大镜
+            window.bigShow = function (e) {
+                var url = $(e).attr('src');
+	            layer.open({
+	               type: 1,
+	               title: false,
+	               area: ['500px', '500px'],
+	               resize:false,//不可拖拽缩放
+	               content: "<img style='margin:10px;' alt=" + name + " title=" + name + " src=" + url + " height=480px; width=480px;" + "/>"
+	            });
+            };
         });
     </script>
 

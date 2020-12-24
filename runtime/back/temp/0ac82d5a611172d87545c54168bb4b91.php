@@ -1,8 +1,23 @@
+<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\index\index.html";i:1608804623;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!--
  * @Descripttion: 
 -->
 <!-- 引入模板公共头部 -->
-{include file='common/header'}
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/font.css">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/xadmin.css">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/theme.css">
+    <link rel="stylesheet" href="/Static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="/Static/css/back.css">
+    <script src="/Static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/Static/lib/xadmin/js/xadmin.js"></script>
+</head>
 <body class="index">
     <!-- 顶部开始 -->
     <div class="container">
@@ -13,7 +28,7 @@
         </div>
         <ul class="layui-nav right" lay-filter="">
             <li class="layui-nav-item">
-                <a href="javascript:;">{$admin_name}</a>
+                <a href="javascript:;"><?php echo htmlentities($admin_name); ?></a>
                 <dl class="layui-nav-child">
                     <!-- 二级菜单 -->
                     <dd>
@@ -38,25 +53,24 @@
     <div class="left-nav">
         <div id="side-nav">
             <ul id="nav">
-                {foreach $listTree as $v}
+                <?php foreach($listTree as $v): ?>
                 <li>
                     <a href="javascript:;">
-                        <cite>{$v.name}</cite>
+                        <cite><?php echo htmlentities($v['name']); ?></cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                     <ul class="sub-menu">
-                        {if $v.children|@count neq 0}
-                        {foreach $v['children'] as $v2}
+                        <?php if($v['children']|@count != 0): foreach($v['children'] as $v2): ?>
                         <li>
-                            <a onclick="xadmin.add_tab('{$v2.name}','{$v2.url}',true)">
-                                <cite>{$v2.name}</cite>
+                            <a onclick="xadmin.add_tab('<?php echo htmlentities($v2['name']); ?>','<?php echo htmlentities($v2['url']); ?>',true)">
+                                <cite><?php echo htmlentities($v2['name']); ?></cite>
                             </a>
                         </li>
-                        {/foreach}
-                        {/if}
+                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </ul>
                 </li>
-                {/foreach}
+                <?php endforeach; ?>
             </ul>
         </div>
     </div>

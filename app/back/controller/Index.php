@@ -24,22 +24,24 @@ class Index extends BaseController
         $adminModel = new AdminModel;
         $adminid = session('adminid');
         $adminInfo = $adminModel->getInfo(['id' => $adminid]);
-
+        
         $where = [];
+        $roseModel = new RoseModel;
+        $ruleModel = new RuleModel;
         if ($adminInfo['nick_name'] != 'admin') {
             // 当前登录的管理员权限
-            $roseModel = new RoseModel;
             $roseid = $adminInfo['rose_id'];
             $roseInfo = $roseModel->getInfo(['id' => $roseid]);
             $ruleArr = explode(',', $roseInfo['rule']);
-
-            $where['id'] = ['in', $ruleArr];
+            
+            $list = $ruleModel->where(['status' => 1])->whereIn('id', $ruleArr)->select()->toArray();
+        } else {
+            $list = $ruleModel->getAllList(['status' => 1]);
         }
-        $ruleModel = new RuleModel;
-        $list = $ruleModel->getAllList($where);
+
         $listTree = cats_tree($list);
 
-        return view('index', ['listTree' => $listTree]);
+        return view('index', ['listTree' => $listTree, 'admin_name' => $adminInfo['nick_name']]);
     }
 
     /**

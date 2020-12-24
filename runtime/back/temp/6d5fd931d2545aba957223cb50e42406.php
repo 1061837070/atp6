@@ -1,5 +1,20 @@
+<?php /*a:2:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\rose\index.html";i:1608782108;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
-{include file='common/header'}
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/font.css">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/xadmin.css">
+    <link rel="stylesheet" href="/Static/lib/xadmin/css/theme.css">
+    <link rel="stylesheet" href="/Static/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="/Static/css/back.css">
+    <script src="/Static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/Static/lib/xadmin/js/xadmin.js"></script>
+</head>
 <body>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -9,19 +24,19 @@
                     <button class="layui-btn layui-btn-sm layui-btn-normal layui-btn-refresh" title="点击刷新" lay-event="refresh">
                         <i class="layui-icon layui-icon-refresh-3"></i>
                     </button>
-                    {$hbtns|raw}
+                    <?php echo $hbtns; ?>
                 </script>
 
                 <!-- 右侧工具栏 -->
                 <script type="text/html" id="bar">
-                    {$mbtns|raw}
+                    <?php echo $mbtns; ?>
                 </script>
 
                 <div class="layui-card">
                     <div class="layui-card-body ">
                         <table class="layui-table" id="roseList" lay-filter="list"></table>
                     </div>
-                    <input type="hidden" id="isOperate" value="{$isOperate}">
+                    <input type="hidden" id="isOperate" value="<?php echo htmlentities($isOperate); ?>">
                 </div>
             </div>
         </div>

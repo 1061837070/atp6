@@ -40,14 +40,14 @@ class Rule extends BaseController
                 $list = $ruleModel->getAllList();
             } else {
                 $ruleIds = explode(',', $roseInfo['rule']);
-                $list = RuleModel::whereIn('id',$ruleIds)->select();
+                $list = RuleModel::whereIn('id',$ruleIds)->select()->toArray();
             }
 
             //权限转无限极，带前置表示的树形数组
             $listTrr = $this->catsList($list);
-
+// p($listTrr);
             //无限极数组转二维数组
-            $listTwo = tree_to_two($listTrr);
+            $listTwo = rule_tree_to_two($listTrr);
 
             $data = ['code' => 200, 'data' => $listTwo];
             return json($data);

@@ -53,4 +53,15 @@ class Login extends BaseController
         }
         return view();
     }
+
+    /**
+     * @msg: 退出登录
+     * @param {*}
+     * @return {*}
+     */
+    public function logout()
+    {
+        session(null);
+        return json(['code' => 200, 'msg' => '退出成功']);
+    }
 }

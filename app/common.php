@@ -79,10 +79,31 @@ if (!function_exists('tree_to_two')) {
     {
         $res = array();
         foreach($arr as $v) {
+            if (isset($v['children'])) {
+                $t = $v['children'];
+                unset($v['children']);
+                $res = array_merge($res, tree_to_two($t));
+            }
+            $res[] = $v;
+        }
+        return $res;
+    }
+}
+
+if (!function_exists('rule_tree_to_two')) {
+    /**
+     * 功能权限无限极数组转二维数组
+     * @param array $arr
+     * @return array
+     */
+    function rule_tree_to_two(array $arr)
+    {
+        $res = array();
+        foreach($arr as $v) {
             $t = $v['children'];
             unset($v['children']);
             $res[] = $v;
-            if($t) $res = array_merge($res, tree_to_two($t));
+            if($t) $res = array_merge($res, rule_tree_to_two($t));
         }
         return $res;
     }
@@ -196,6 +217,62 @@ if (!function_exists('get_childs_id_str')) {
                     $n = get_childs_id_str($v['children'], $v['id']);
                     $result .= $n;
                 }
+            }
+        }
+        return $result;
+    }
+}
+
+if (!function_exists('get_no_childs_id_str')) {
+    /**
+     * @msg: 获取多维数组中没有后代的元素
+     * @param array $arr 后代分类的多维数组
+     * @return {*}
+     */
+    function get_no_childs_id_str(array $arr)
+    {
+        $result = '';
+        foreach ($arr as $k => $v) {
+            if (empty($v['children'])) {
+                $result .= $v['id'].',';
+            } else {
+                $n = get_no_childs_id_str($v['children']);
+                $result .= $n;
+            }
+        }
+        return $result;
+    }
+}
+
+if (!function_exists('get_rule_tree')) {
+    /**
+     * @msg: 生成layuiTree数据数组
+     * @param array $cats 可选功能的二维数组
+     * @param int   $pid  功能分类的父级id 默认0 从一级开始
+     * @param array $ids  角色已有功能id数组
+     * @param int   $type 1获取指定id功能的权限 2全选 3全不选
+     * @return {*}
+     */
+    function get_rule_tree(array $cats, int $pid = 0, array $ids, int $type)
+    {
+        $result = [];
+        foreach ($cats as $k => $v) {
+            $v['spread'] = true;
+            if ($v['pid'] == $pid) {
+                unset($cats[$k]);
+                if ($type == 1) {
+                    if (in_array($v['id'], $ids)) {
+                        $v['checked'] = true;
+                    }
+                }
+                if ($type == 2) {
+                    $v['checked'] = true;
+                }
+                if ($type == 3) {
+                    $v['checked'] = false;
+                }
+                $v['children'] = get_rule_tree($cats, $v['id'], $ids, $type);
+                $result[] = $v;
             }
         }
         return $result;

@@ -59,6 +59,16 @@ class RoseModel extends Model
     }
 
     /**
+     * @msg: 根据条件删除数据
+     * @param array $where  查询条件，查询出需要删除的数据
+     * @return {*}
+     */
+    public function delData(array $where = [])
+    {
+        return self::where($where)->delete();
+    }
+
+    /**
      * @msg: 查询除指定id外，根据指定条件查询数据
      * @param array $where  查询条件
      * @param int   $id     指定的id

@@ -2,6 +2,7 @@
 use think\facade\Route;
 
 Route::get('login', 'login/login');
+Route::get('logout', 'login/logout');
 
 
 // 一般路由
