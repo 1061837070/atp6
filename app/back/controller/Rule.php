@@ -9,6 +9,7 @@ use app\back\model\AdminModel;
 use app\back\model\RoseModel;
 use app\back\validate\Vrule;
 use think\exception\ValidateException;
+use think\facade\Db;
 
 /**
  * 后台 功能菜单
@@ -18,7 +19,7 @@ class Rule extends BaseController
     protected $noNeedLogin = ['addBaseRule'];
 
     /**
-     * @msg: 功能菜单列表页
+     * @msg: 功能菜单列表页 展示包括当前登录账号授权的禁用功能
      * @param {*}
      * @return {*}
      */   
@@ -37,15 +38,32 @@ class Rule extends BaseController
             //登录管理员拥有的权限
             $ruleModel = new RuleModel;
             if ($roseInfo['name'] == '超级管理员') {
-                $list = $ruleModel->getAllList();
+                $list = Db::table('tp6_rule')
+                    ->alias('r')
+                    ->leftJoin('tp6_admin ca','r.created_id = ca.id')
+                    ->leftJoin('tp6_admin ua','r.updated_id = ua.id')
+                    ->field('r.*')
+                    ->field('ca.nick_name as cname')
+                    ->field('ua.nick_name as uname')
+                    ->select()
+                    ->toArray();
             } else {
                 $ruleIds = explode(',', $roseInfo['rule']);
-                $list = RuleModel::whereIn('id',$ruleIds)->select()->toArray();
+                $list = Db::table('tp6_rule')
+                    ->alias('r')
+                    ->whereIn('r.id', $ruleIds)
+                    ->leftJoin('tp6_admin ca','r.created_id = ca.id')
+                    ->leftJoin('tp6_admin ua','r.updated_id = ua.id')
+                    ->field('r.*')
+                    ->field('ca.nick_name as cname')
+                    ->field('ua.nick_name as uname')
+                    ->select()
+                    ->toArray();
             }
 
             //权限转无限极，带前置表示的树形数组
             $listTrr = $this->catsList($list);
-// p($listTrr);
+
             //无限极数组转二维数组
             $listTwo = rule_tree_to_two($listTrr);
 

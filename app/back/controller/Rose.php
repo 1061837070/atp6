@@ -208,12 +208,11 @@ class Rose extends BaseController
             // 验证传输的功能id
             $arr = tree_to_two($params['ids']);
             $ruleIdArr = array_column($arr, 'id');
+            
             $ruleModel = new RuleModel;
-            foreach ($ruleIdArr as $k => $v) {
-                $ruleInfo = $ruleModel->getInfo(['id' => $v]);
-                if (empty($ruleInfo)) {
-                    return json(['code' => 400, 'msg' => '选择的功能错误']);
-                }
+            $ruleList = $ruleModel->whereIn('id', $ruleIdArr)->select()->toArray();
+            if (count($ruleIdArr) != count($ruleList)) {
+                return json(['code' => 400, 'msg' => '选择了错误的功能']);
             }
 
             // 更新

@@ -1,4 +1,4 @@
-<?php /*a:2:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\rose\index.html";i:1608782108;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
+<?php /*a:2:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\rose\index.html";i:1608867272;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
 <!DOCTYPE html>
 <html class="x-admin-sm">
@@ -52,16 +52,14 @@
                     {field: 'id', title: 'ID', width: 50, align: 'center'},
                     {field: 'name', title: '角色名称'},
                     {field: 'sort', title: '排序', width: 60},
-                    {field: 'cname', title: '创建'},
-                    {field: 'created_at', title: '创建时间', width: 150, templet: function(d){
-                        return util.toDateString(d.created_at*1000)
+                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
+                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】'; 
                     }},
-                    {field: 'uname', title: '最后一次更新'},
-                    {field: 'updated_at', title: '最后一次更新时间', width: 150, templet: function(d){
-                        if(d.updated_at != null){
-                            return util.toDateString(d.updated_at*1000)
+                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
+                        if (d.updated_at) {
+                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
                         } else {
-                            return ''
+                            return '';
                         }
                     }},
                     {field: 'remark', title: '备注'}

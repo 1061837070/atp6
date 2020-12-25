@@ -1,4 +1,4 @@
-<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1608802410;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
+<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1608867556;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
 <!DOCTYPE html>
 <html class="x-admin-sm">
@@ -68,17 +68,17 @@
                     {field: 'phone', title: '手机号', width: 110},
                     {field: 'status', title: '状态', width: 60, templet: function(d){
                         if (d.status == 1) {
-                            return '<span style="color: #1E9FFF;">正常</span>';
+                            return '<span style="color: #009688;">正常</span>';
                         } else {
                             return '<span style="color: red;">禁用</span>';
                         }
                     }},
-                    {field: 'cname', title: '创建', minWidth: 230, templet: function(d){
-                        return '【' + util.toDateString(d.created_at*1000) + '】' + '【' + d.cname + '】'; 
+                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
+                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】';
                     }},
-                    {field: '', title: '最后一次修改', minWidth: 230, templet: function(d){
+                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
                         if (d.updated_at) {
-                            return '【' + util.toDateString(d.updated_at*1000) + '】' + '【' + d.uname + '】';
+                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
                         } else {
                             return '';
                         }

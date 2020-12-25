@@ -1,4 +1,4 @@
-<?php /*a:2:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\rule\index.html";i:1608804785;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
+<?php /*a:2:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\rule\index.html";i:1608867150;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
 <!DOCTYPE html>
 <html class="x-admin-sm">
@@ -44,16 +44,17 @@
     </div>
 
     <script>
-        layui.use(['table'], function () {
+        layui.use(['table', 'util'], function () {
             var table = layui.table,
+                util = layui.util,
                 $ = layui.$;
             var isOperate = $("#isOperate").val();
             var cols = [
-                    {field: 'id', title: 'ID', width: 80, align: 'center'},
+                    {field: 'id', title: 'ID', width: 50, align: 'center'},
                     {field: 'name', title: '名称'},
                     {field: 'url', title: 'URL路径'},
-                    {field: 'sort', title: '排序', width: 80, align: 'center'},
-                    {field: 'type', title: '类型', width: 80, align: 'center', templet: function(d) {
+                    {field: 'sort', title: '排序', width: 60, align: 'center'},
+                    {field: 'type', title: '类型', width: 70, align: 'center', templet: function(d) {
                         if (d.type == 1) {
                             return '菜单';
                         } else {
@@ -62,9 +63,19 @@
                     }},
                     {field: 'status', title: '状态', width: 80, align: 'center', templet: function(d) {
                         if (d.status == 1) {
-                            return '正常';
+                            return '<span style="color: #009688;">正常</span>';
                         } else {
                             return '<span style="color: red;">禁用</span>';
+                        }
+                    }},
+                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
+                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】'; 
+                    }},
+                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
+                        if (d.updated_at) {
+                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
+                        } else {
+                            return '';
                         }
                     }},
                     {field: 'remark', title: '备注'}

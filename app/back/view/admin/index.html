@@ -53,17 +53,17 @@
                     {field: 'phone', title: '手机号', width: 110},
                     {field: 'status', title: '状态', width: 60, templet: function(d){
                         if (d.status == 1) {
-                            return '<span style="color: #1E9FFF;">正常</span>';
+                            return '<span style="color: #009688;">正常</span>';
                         } else {
                             return '<span style="color: red;">禁用</span>';
                         }
                     }},
-                    {field: 'cname', title: '创建', minWidth: 230, templet: function(d){
-                        return '【' + util.toDateString(d.created_at*1000) + '】' + '【' + d.cname + '】'; 
+                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
+                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】';
                     }},
-                    {field: '', title: '最后一次修改', minWidth: 230, templet: function(d){
+                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
                         if (d.updated_at) {
-                            return '【' + util.toDateString(d.updated_at*1000) + '】' + '【' + d.uname + '】';
+                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
                         } else {
                             return '';
                         }
@@ -73,7 +73,7 @@
             if (isOperate == 1) {
                 cols.push({width: 340, toolbar: '#bar', title: '操作'})
             }
-
+            是否删除，1未删除，2已删除，默认1。只能删除审核拒绝的信息，拒绝时用户表中认证已改为未认证，删除时只将本表中删除标识改为已删除，无其他操作。
             //初始化表格数据
             var tblIns = table.render({
                 elem: '#adminList',

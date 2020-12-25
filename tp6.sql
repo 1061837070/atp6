@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 24/12/2020 19:26:59
+ Date: 25/12/2020 13:09:00
 */
 
 SET NAMES utf8mb4;
@@ -70,9 +70,9 @@ CREATE TABLE `tp6_rose`  (
 -- Records of tp6_rose
 -- ----------------------------
 INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1607394001, 1, NULL, NULL);
-INSERT INTO `tp6_rose` VALUES (2, '管理员', 1, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26', '', 1608710346, 1, 1608808373, 1);
-INSERT INTO `tp6_rose` VALUES (3, '技术员', 2, '1,3,10,11,12,22,24,25', '技术员管理技术功能', 1608710641, 1, 1608808290, 2);
-INSERT INTO `tp6_rose` VALUES (5, '客服', 3, NULL, '', 1608803431, 1, NULL, NULL);
+INSERT INTO `tp6_rose` VALUES (2, '管理员', 1, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26', '', 1608710346, 1, 1608867356, 1);
+INSERT INTO `tp6_rose` VALUES (3, '技术员', 2, '1,2,5,6,7,8,9,22,24,25,26', '技术员管理技术功能', 1608710641, 1, 1608866635, 2);
+INSERT INTO `tp6_rose` VALUES (5, '客服', 3, '1,3,10,11,12,13', '', 1608803431, 1, 1608865983, 2);
 
 -- ----------------------------
 -- Table structure for tp6_rule
@@ -119,8 +119,8 @@ INSERT INTO `tp6_rule` VALUES (19, 4, '启用', '/back/admin/start', 6, 2, 1, NU
 INSERT INTO `tp6_rule` VALUES (20, 4, '删除管理员', '/back/admin/del', 7, 2, 1, NULL, 1607396066, 1, 1608704176, 1);
 INSERT INTO `tp6_rule` VALUES (21, 0, '网站设置', '/back/webset/index', 2, 1, 1, '', 1608545538, 1, NULL, NULL);
 INSERT INTO `tp6_rule` VALUES (22, 0, '网站设置2', '/back/webset/inde', 3, 1, 1, '', 1608545631, 1, NULL, NULL);
-INSERT INTO `tp6_rule` VALUES (24, 0, '订单管理', '/', 5, 1, 1, '', 1608615898, 1, 1608708038, 1);
-INSERT INTO `tp6_rule` VALUES (25, 24, '订单列表', '/back/order/index', 1, 1, 1, '', 1608616029, 1, 1608805222, 2);
-INSERT INTO `tp6_rule` VALUES (26, 25, '订单详情', '/back/order/detail', 1, 2, 1, '', 1608805258, 2, NULL, NULL);
+INSERT INTO `tp6_rule` VALUES (24, 0, '订单管理', '/', 5, 1, 2, '', 1608615898, 1, 1608866027, 2);
+INSERT INTO `tp6_rule` VALUES (25, 24, '订单列表', '/back/order/index', 1, 1, 2, '', 1608616029, 1, 1608866027, 2);
+INSERT INTO `tp6_rule` VALUES (26, 25, '订单详情', '/back/order/detail', 1, 2, 2, '', 1608805258, 2, 1608866027, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

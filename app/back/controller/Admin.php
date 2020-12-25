@@ -109,6 +109,12 @@ class Admin extends BaseController
         return view('add', ['roseList'=>$roseList]);
     }
 
+    
+    public function edit()
+    {
+        $adminModel = new AdminModel;
+    }
+
     /**
      * @msg: 上传管理员头像接口
      * @param {*}
