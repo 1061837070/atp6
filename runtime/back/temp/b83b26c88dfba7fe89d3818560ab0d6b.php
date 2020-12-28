@@ -1,4 +1,4 @@
-<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1609151839;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
+<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1609152992;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
 <!DOCTYPE html>
 <html class="x-admin-sm">
@@ -60,9 +60,9 @@
                     {field: 'rose_name', title: '角色', minWidth: 80},
                     {field: 'header_pic', title: '头像', width: 77, templet: function(d) {
                         if (d.header_pic.length == 0) {
-                            return '<img src="/Static/images/header.jpg" height="40" class="header_pic" onclick="bigShow(this)" />';
+                            return '<img src="/Static/images/header.jpg" height="30" class="header_pic" onclick="bigShow(this)" />';
                         } else {
-                            return '<img src="'+d.header_pic+'" height="40" class="header_pic" onclick="bigShow(this)" />';
+                            return '<img src="'+d.header_pic+'" height="30" class="header_pic" onclick="bigShow(this)" />';
                         }
                     }},
                     {field: 'phone', title: '手机号', width: 110},
