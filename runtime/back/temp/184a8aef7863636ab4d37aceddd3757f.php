@@ -1,3 +1,4 @@
+<?php /*a:1:{s:54:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\edit.html";i:1609146859;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,19 +24,19 @@
 		<div class="layui-form-item">
 		    <label class="layui-form-label"><span class="my_red_sign">*</span>昵称：</label>
 		    <div class="layui-input-block">
-		      	<input type="text" name="nick_name" autocomplete="off" placeholder="请输入管理员昵称" class="layui-input" lay-verify="required" value="{$adminInfo.nick_name}">
+		      	<input type="text" name="nick_name" autocomplete="off" placeholder="请输入管理员昵称" class="layui-input" lay-verify="required" value="<?php echo htmlentities($adminInfo['nick_name']); ?>">
 		    </div>
 		</div>
 		<div class="layui-form-item">
 		    <label class="layui-form-label"><span class="my_red_sign">*</span>手机：</label>
 		    <div class="layui-input-block">
-		      	<input type="text" name="phone" autocomplete="off" placeholder="请输入手机号" class="layui-input" lay-verify="phone" value="{$adminInfo.phone}">
+		      	<input type="text" name="phone" autocomplete="off" placeholder="请输入手机号" class="layui-input" lay-verify="phone" value="<?php echo htmlentities($adminInfo['phone']); ?>">
 		    </div>
 		</div>
 		<div class="layui-form-item">
 		    <label class="layui-form-label">邮箱：</label>
 		    <div class="layui-input-block">
-		      	<input type="text" name="email" autocomplete="off" placeholder="请输入管理员邮箱" class="layui-input" value="{$adminInfo.email}">
+		      	<input type="text" name="email" autocomplete="off" placeholder="请输入管理员邮箱" class="layui-input" value="<?php echo htmlentities($adminInfo['email']); ?>">
 		    </div>
 		</div>
 		<div class="layui-form-item" style="height: 100px;">
@@ -44,19 +45,19 @@
 		    	<button type="button" class="layui-btn" id="test1">
 				  	<i class="layui-icon">&#xe67c;</i>上传图片
 				</button>
-				<img src="{$adminInfo.header_pic}" alt="" width="100px" class="header_pic">
-		      	<input type="hidden" name="header_pic" id="header_pic" value="{$adminInfo.header_pic}">
+				<img src="<?php echo htmlentities($adminInfo['header_pic']); ?>" alt="" width="100px" class="header_pic">
+		      	<input type="hidden" name="header_pic" id="header_pic" value="<?php echo htmlentities($adminInfo['header_pic']); ?>">
 		    </div>
 		</div>
 		<div class="layui-form-item layui-form-text">
 		    <label class="layui-form-label">备注：</label>
 		    <div class="layui-input-block">
-		      	<textarea placeholder="请输入内容" class="layui-textarea" name="remark">{$adminInfo.remark}</textarea>
+		      	<textarea placeholder="请输入内容" class="layui-textarea" name="remark"><?php echo htmlentities($adminInfo['remark']); ?></textarea>
 		</div>
 
 		<div class="layui-form-item end_btn">
 		    <div class="layui-input-block">
-				<input type="hidden" id="id" value="{$adminInfo.id}">
+				<input type="hidden" id="id" value="<?php echo htmlentities($adminInfo['id']); ?>">
 		    	<button class="layui-btn" lay-submit="" lay-filter="edit">保存</button>
 		      	<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 		    </div>

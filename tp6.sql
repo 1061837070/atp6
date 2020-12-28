@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 25/12/2020 13:09:00
+ Date: 28/12/2020 18:53:31
 */
 
 SET NAMES utf8mb4;
@@ -38,16 +38,16 @@ CREATE TABLE `tp6_admin`  (
   `updated_at` int(10) NULL DEFAULT NULL COMMENT '最后一次修改此账号的时间',
   `updated_id` int(10) NULL DEFAULT NULL COMMENT '最后一次修改此账号的管理员id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '后台管理员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci COMMENT = '后台管理员表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tp6_admin
 -- ----------------------------
 INSERT INTO `tp6_admin` VALUES (1, 'admin', 'admin', '', 'df78f25a8179efcbeb30570f74b0972a', '6c6a99', NULL, NULL, 1, 1, NULL, 1607398893, 1, NULL, NULL);
-INSERT INTO `tp6_admin` VALUES (2, 'cqz', NULL, '13295993332', 'e85c49c58f1e313a282b72e122476e4c', 'b98fbf', '', '/storage/admin_header_pic/20201224/a236e23b357e6881deea90a8fdf8fe86.jpg', 1, 2, '', 1608800541, 1, NULL, NULL);
+INSERT INTO `tp6_admin` VALUES (2, 'cqz', NULL, '13295993332', 'e6516d56134b58c84b071c4211103764', '8ecb55', '', '/storage/admin_header_pic/20201224/a236e23b357e6881deea90a8fdf8fe86.jpg', 1, 2, '', 1608800541, 1, 1609151385, 2);
 INSERT INTO `tp6_admin` VALUES (3, 'cs3', NULL, '13295993333', 'b4960296310c64e9bb0ac8f6624e45d3', '7ebf4a', '', '/storage/admin_header_pic/20201224/4ced3c580e7e26747dc8c50fa196041c.jpg', 1, 3, '', 1608801240, 1, NULL, NULL);
-INSERT INTO `tp6_admin` VALUES (4, 'cs4', NULL, '13295993334', '52605174c9799a8623aa0abb6da44573', '726679', '', '/storage/admin_header_pic/20201224/2df49f3a34eb825b1ed00583a31ab282.jpg', 1, 3, '', 1608801262, 1, NULL, NULL);
-INSERT INTO `tp6_admin` VALUES (5, 'cs5', NULL, '13295993335', 'c982910a14db21a0643e5524efffbf9f', '8a23f5', '', '/storage/admin_header_pic/20201224/7837d865cef8d4fee98411ab516ff2cd.jpg', 1, 2, '', 1608801290, 1, NULL, NULL);
+INSERT INTO `tp6_admin` VALUES (4, 'cs4', NULL, '13295993334', '52605174c9799a8623aa0abb6da44573', '726679', '', '/storage/admin_header_pic/20201224/2df49f3a34eb825b1ed00583a31ab282.jpg', 1, 5, '', 1608801262, 1, 1609149648, 2);
+INSERT INTO `tp6_admin` VALUES (5, 'cs5', NULL, '13295993335', 'c982910a14db21a0643e5524efffbf9f', '8a23f5', '', '/storage/admin_header_pic/20201224/7837d865cef8d4fee98411ab516ff2cd.jpg', 1, 2, '', 1608801290, 1, 1609152002, 2);
 
 -- ----------------------------
 -- Table structure for tp6_rose
@@ -70,7 +70,7 @@ CREATE TABLE `tp6_rose`  (
 -- Records of tp6_rose
 -- ----------------------------
 INSERT INTO `tp6_rose` VALUES (1, '超级管理员', 0, '*', NULL, 1607394001, 1, NULL, NULL);
-INSERT INTO `tp6_rose` VALUES (2, '管理员', 1, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26', '', 1608710346, 1, 1608867356, 1);
+INSERT INTO `tp6_rose` VALUES (2, '管理员', 1, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26', '', 1608710346, 1, 1609144566, 1);
 INSERT INTO `tp6_rose` VALUES (3, '技术员', 2, '1,2,5,6,7,8,9,22,24,25,26', '技术员管理技术功能', 1608710641, 1, 1608866635, 2);
 INSERT INTO `tp6_rose` VALUES (5, '客服', 3, '1,3,10,11,12,13', '', 1608803431, 1, 1608865983, 2);
 

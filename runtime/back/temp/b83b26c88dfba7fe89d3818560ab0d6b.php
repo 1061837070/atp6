@@ -1,4 +1,4 @@
-<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1608867556;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
+<?php /*a:2:{s:55:"D:\phpstudy_pro\WWW\atp6\app\back\view\admin\index.html";i:1609151839;s:57:"D:\phpstudy_pro\WWW\atp6\app\back\view\common\header.html";i:1608780746;}*/ ?>
 <!-- 引入模板公共头部 -->
 <!DOCTYPE html>
 <html class="x-admin-sm">
@@ -88,7 +88,6 @@
             if (isOperate == 1) {
                 cols.push({width: 340, toolbar: '#bar', title: '操作'})
             }
-
             //初始化表格数据
             var tblIns = table.render({
                 elem: '#adminList',
@@ -139,6 +138,73 @@
                 switch (obj.event) {
                     case 'edit':
                         parent.xadmin.open('编辑管理员','/back/admin/edit?id='+data.id, 600, 600);
+                        break;
+                    case 'setRose':
+                        parent.xadmin.open('分配角色','/back/admin/setRose?id='+data.id, 600, 500);
+                        break;
+                    case 'resetPwd':
+                        layer.confirm('确认重置' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '的登录密吗？', {icon: 3}, function(){
+                            $.ajax({
+                                url: '/back/admin/resetPwd',
+                                type: 'POST',
+                                data: {'id': data.id},
+                                dataType: 'json',
+                                success: function (res) {
+                                    if (res.code == 200) {
+                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                            window.location.reload();
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, {icon: 2});
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg('网络错误', {icon: 5});
+                                }
+                            });
+                        })
+                        break;
+                    case 'stop':
+                        layer.confirm('确认禁用' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '？禁用后账号将无法登陆', {icon: 0}, function(){
+                            $.ajax({
+                                url: '/back/admin/stop',
+                                type: 'POST',
+                                data: {'id': data.id},
+                                dataType: 'json',
+                                success: function (res) {
+                                    if (res.code == 200) {
+                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                            tblIns.reload();
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, {icon: 2});
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg('网络错误', {icon: 5});
+                                }
+                            });
+                        })
+                        break;
+                    case 'start':
+                        $.ajax({
+                            url: '/back/admin/start',
+                            type: 'POST',
+                            data: {'id': data.id},
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.code == 200) {
+                                    layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                        tblIns.reload();
+                                    });
+                                } else {
+                                    layer.msg(res.msg, {icon: 2});
+                                }
+                            },
+                            error: function () {
+                                layer.msg('网络错误', {icon: 5});
+                            }
+                        });
                         break;
                     case 'del':
                         layer.confirm('确定删除？', {icon: 3}, function(){

@@ -7,6 +7,7 @@ use think\App;
 use app\back\model\AdminModel;
 use app\back\model\RuleModel;
 use app\back\model\RoseModel;
+use think\facade\Request;
 
 /**
  * 控制器基础类
@@ -110,6 +111,42 @@ abstract class BaseController
                 die();
             }
         }
+
+        // 操作权限检测
+        if (!empty($adminInfo) && $adminInfo['nick_name'] != 'admin') {
+            $urlArr = explode('?', Request::url());
+            $url = $urlArr[0];
+            
+            $ruleModel = new RuleModel;
+            $ruleInfo = $ruleModel->getInfo(['url' => $url]);
+			if (!empty($ruleInfo)) {
+                // 当前登录账号的权限
+                $roseModel = new RoseModel;
+				$roseInfo = $roseModel->getInfo(['id' => $adminInfo['rose_id']]);
+				$roseRuleIdArr = explode(',', $roseInfo['rule']);
+
+				if (in_array($ruleInfo['id'], $roseRuleIdArr)) {
+					$inRule = true;
+				} else {
+					$inRule = false;
+				}
+
+				if (!$inRule) {
+					if (request()->isAjax()) {
+                        return json(['code' => 400, 'msg' => '您无此权限']);
+					} else {
+						$icon = '/iconstr/layui-icon-404';
+                        $msgstr = '/msgstr/您无此权限';
+                        $url = str_replace('/','*','/back/index/index');
+                        $urlstr = '/urlstr/'.$url;
+                        $btnstr = '/btnstr/首页';
+
+                        redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
+                        die();
+					}
+				}
+			}
+		}
     }
 
     /**
