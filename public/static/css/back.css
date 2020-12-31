@@ -1,0 +1,16 @@
+*{
+    margin: 0; padding: 0
+}
+body{
+    width: 100%; 
+    height: 100%;
+}
+.layui-card {
+    margin-top: 10px;
+}
+.layui-card-body {
+    padding: 2px 15px 10px;
+}
+.my_red_sign{
+    color: red;
+}
