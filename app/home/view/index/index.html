@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts曲线图</title>
+</head>
+<body>
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="main" style="width: 600px;height:400px;margin-left: 20%;margin-top: 10%;"></div>
+
+    <script src="/Static/lib/echarts/echarts.min.js"></script>
+    <script src="/Static/js/jquery.min.js"></script>
+
+    <script>
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            //左上角标题
+            // title: {text: 'ECharts 入门示例'},
+
+            //提示框组件，鼠标在图上个点的提示信息
+            tooltip: {},
+
+            // 各颜色线代表的数据信息
+            legend: {
+                data:['销量','支出']
+            },
+
+            // 直角坐标系 X 轴
+            xAxis: {
+                data: ["周一","周二","周三","周四","周五","周六","周日"]
+            },
+
+            // 直角坐标系 Y 轴
+            yAxis: {},
+
+            //系列，图形的数据，样式，如何映射；多个对象映射多个图形
+            series: [
+                {
+                    name: '销量',
+                    type: 'line', //line（折线图）、bar（柱状图）、pie（饼图）、scatter（散点图）、graph（关系图）、tree（树图）
+                    data: [10, 15, 19, 16, 20, 30, 35]
+                },
+                {
+                    name: '支出',
+                    type: 'line', //line（折线图）、bar（柱状图）、pie（饼图）、scatter（散点图）、graph（关系图）、tree（树图）
+                    data: [2, 3, 3, 2, 5, 8, 9]
+                }
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

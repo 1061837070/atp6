@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>echarts曲线图</title>
+</head>
+<body>
+    <div id="main" style="width: 600px;height:400px;margin-left: 20%;margin-top: 10%;"></div>
+
+    <script src="/Static/lib/echarts/echarts.min.js"></script>
+    <script src="/Static/js/jquery.min.js"></script>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            series: [
+                {
+                    type: 'pie',
+                    radius: ['55%', '70%'],
+                    hoverAnimation: false,
+                    label: {show: false},
+                    data: [
+                        {value: 20, itemStyle: {color: "#46A4FC"}},
+                        {value: 80, itemStyle: {color: "#F0F2F5"}}
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
