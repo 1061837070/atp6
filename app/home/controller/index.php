@@ -5,7 +5,10 @@ namespace app\home\controller;
 
 use app\home\BaseController;
 
-
+/**
+ * Class Index  前端首页
+ * @package app\home\controller
+ */
 class Index extends BaseController
 {
     public function index()
