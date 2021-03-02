@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\home\controller;
 
@@ -20,5 +20,4 @@ class Index extends BaseController
     {
         return view('index2');
     }
-
 }

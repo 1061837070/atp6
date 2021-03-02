@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -22,7 +22,7 @@ class Rule extends BaseController
      * @msg: 功能菜单列表页 展示包括当前登录账号授权的禁用功能
      * @param {*}
      * @return {*}
-     */   
+     */
     public function index()
     {
         if (request()->isAjax()) {
@@ -40,8 +40,8 @@ class Rule extends BaseController
             if ($roseInfo['name'] == '超级管理员') {
                 $list = Db::table('tp6_rule')
                     ->alias('r')
-                    ->leftJoin('tp6_admin ca','r.created_id = ca.id')
-                    ->leftJoin('tp6_admin ua','r.updated_id = ua.id')
+                    ->leftJoin('tp6_admin ca', 'r.created_id = ca.id')
+                    ->leftJoin('tp6_admin ua', 'r.updated_id = ua.id')
                     ->field('r.*')
                     ->field('ca.nick_name as cname')
                     ->field('ua.nick_name as uname')
@@ -52,8 +52,8 @@ class Rule extends BaseController
                 $list = Db::table('tp6_rule')
                     ->alias('r')
                     ->whereIn('r.id', $ruleIds)
-                    ->leftJoin('tp6_admin ca','r.created_id = ca.id')
-                    ->leftJoin('tp6_admin ua','r.updated_id = ua.id')
+                    ->leftJoin('tp6_admin ca', 'r.created_id = ca.id')
+                    ->leftJoin('tp6_admin ua', 'r.updated_id = ua.id')
                     ->field('r.*')
                     ->field('ca.nick_name as cname')
                     ->field('ua.nick_name as uname')
@@ -74,7 +74,7 @@ class Rule extends BaseController
         $mbtns = $this->show_btn(['edit', 'stop', 'start', 'del']);
         $isOperate = empty($mbtns) ? 0 : 1;
 
-        return view('index',['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
+        return view('index', ['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
     }
 
     /**
@@ -82,7 +82,7 @@ class Rule extends BaseController
      * @param {*}
      * @return {*}
      */
-    function add ()
+    public function add()
     {
         if (request()->isAjax()) {
             $params = request()->param();
@@ -161,7 +161,7 @@ class Rule extends BaseController
      * @return {*}
      */
     public function edit()
-    {   
+    {
         $ruleModel = new RuleModel;
         if (request()->isAjax()) {
             $params = request()->param();
@@ -238,7 +238,7 @@ class Rule extends BaseController
         if (empty($ruleInfo)) {
             $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/编辑的功能信息详情不存在，请重新确认';
-            $url = str_replace('/','*','/back/login');
+            $url = str_replace('/', '*', '/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
             die();
@@ -387,7 +387,7 @@ class Rule extends BaseController
      * @param int   $level  级别标识，用于添加前置标识,默认1
      * @return 带前置标识的无限极数组
      */
-    function catsList(array $cats, int $pid = 0, int $level = 1)
+    public function catsList(array $cats, int $pid = 0, int $level = 1)
     {
         $result = [];
         foreach ($cats as $k => $v) {
@@ -412,7 +412,7 @@ class Rule extends BaseController
      * @param {*}
      * @return {*}
      */
-    function addBaseRule ()
+    public function addBaseRule()
     {
         $data1 = ['pid'=>0,'name'=>'系统设置','url'=>'/','sort'=>1,'type'=>1,'created_at'=>time(),'created_id'=>1];
 
@@ -457,5 +457,4 @@ class Rule extends BaseController
             return '基础功能菜单添加失败';
         }
     }
-
 }

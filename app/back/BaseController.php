@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back;
 
@@ -76,7 +76,7 @@ abstract class BaseController
         $isMachEnckey = false;
         if (!empty($adminInfo)) {
             $adminkey1 = session('adminkey');
-            $adminkey2 = set_enc_key($adminInfo['nick_name'],$adminInfo['phone'],$adminInfo['password'],$adminInfo['status']);
+            $adminkey2 = set_enc_key($adminInfo['nick_name'], $adminInfo['phone'], $adminInfo['password'], $adminInfo['status']);
             $isMachEnckey = $adminkey1 == $adminkey2 ? true : false;
         }
 
@@ -88,7 +88,7 @@ abstract class BaseController
                 //需要登录验证的操作先登录再操作，不需要验证的跳过
                 $icon = '/iconstr/layui-icon-face-cry';
                 $msgstr = '/msgstr/您未登录，请登录后操作，';
-                $url = str_replace('/','*','/back/login');
+                $url = str_replace('/', '*', '/back/login');
                 $urlstr = '/urlstr/'.$url;
                 $btnstr = '/btnstr/登录';
                 if (request()->isAjax()) {
@@ -103,7 +103,7 @@ abstract class BaseController
             if ($action == 'login') {
                 $icon = '/iconstr/layui-icon-face-cry';
                 $msgstr = '/msgstr/您已登录，请勿重复操作，';
-                $url = str_replace('/','*','/back/index/index');
+                $url = str_replace('/', '*', '/back/index/index');
                 $urlstr = '/urlstr/'.$url;
                 $btnstr = '/btnstr/首页';
 
@@ -119,34 +119,34 @@ abstract class BaseController
             
             $ruleModel = new RuleModel;
             $ruleInfo = $ruleModel->getInfo(['url' => $url]);
-			if (!empty($ruleInfo)) {
+            if (!empty($ruleInfo)) {
                 // 当前登录账号的权限
                 $roseModel = new RoseModel;
-				$roseInfo = $roseModel->getInfo(['id' => $adminInfo['rose_id']]);
-				$roseRuleIdArr = explode(',', $roseInfo['rule']);
+                $roseInfo = $roseModel->getInfo(['id' => $adminInfo['rose_id']]);
+                $roseRuleIdArr = explode(',', $roseInfo['rule']);
 
-				if (in_array($ruleInfo['id'], $roseRuleIdArr)) {
-					$inRule = true;
-				} else {
-					$inRule = false;
-				}
+                if (in_array($ruleInfo['id'], $roseRuleIdArr)) {
+                    $inRule = true;
+                } else {
+                    $inRule = false;
+                }
 
-				if (!$inRule) {
-					if (request()->isAjax()) {
+                if (!$inRule) {
+                    if (request()->isAjax()) {
                         return json(['code' => 400, 'msg' => '您无此权限']);
-					} else {
-						$icon = '/iconstr/layui-icon-404';
+                    } else {
+                        $icon = '/iconstr/layui-icon-404';
                         $msgstr = '/msgstr/您无此权限';
-                        $url = str_replace('/','*','/back/index/index');
+                        $url = str_replace('/', '*', '/back/index/index');
                         $urlstr = '/urlstr/'.$url;
                         $btnstr = '/btnstr/首页';
 
                         redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
                         die();
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -187,7 +187,7 @@ abstract class BaseController
                 }
             }
         }
-        $showBtns = RuleModel::whereIn('id',$showBtnIds)->select()->toArray();
+        $showBtns = RuleModel::whereIn('id', $showBtnIds)->select()->toArray();
 
         // 当前登录管理员拥有该操作下的功能按钮的url
         $showUrl = array_column($showBtns, 'url');
@@ -243,5 +243,4 @@ abstract class BaseController
 
         return $html;
     }
-
 }

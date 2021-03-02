@@ -1,10 +1,11 @@
 <!-- 引入模板公共头部 -->
 {include file='common/header'}
 <style>
-    .header_pic{
+    .header_pic {
         cursor: pointer;
     }
 </style>
+
 <body>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -33,45 +34,53 @@
     </div>
 
     <script>
-        layui.use(['table','util','layer'], function () {
+        layui.use(['table', 'util', 'layer'], function () {
             var table = layui.table,
                 util = layui.util,
                 layer = layui.layer,
                 $ = layui.$;
             var isOperate = $("#isOperate").val();
             var cols = [
-                    {field: 'id', title: 'ID', width: 50, align: 'center'},
-                    {field: 'nick_name', title: '昵称'},
-                    {field: 'rose_name', title: '角色', minWidth: 80},
-                    {field: 'header_pic', title: '头像', width: 77, templet: function(d) {
+                { field: 'id', title: 'ID', width: 50, align: 'center' },
+                { field: 'nick_name', title: '昵称' },
+                { field: 'rose_name', title: '角色', minWidth: 80 },
+                {
+                    field: 'header_pic', title: '头像', width: 77, templet: function (d) {
                         if (d.header_pic.length == 0) {
                             return '<img src="/Static/images/header.jpg" height="30" class="header_pic" onclick="bigShow(this)" />';
                         } else {
-                            return '<img src="'+d.header_pic+'" height="30" class="header_pic" onclick="bigShow(this)" />';
+                            return '<img src="' + d.header_pic + '" height="30" class="header_pic" onclick="bigShow(this)" />';
                         }
-                    }},
-                    {field: 'phone', title: '手机号', width: 110},
-                    {field: 'status', title: '状态', width: 60, templet: function(d){
+                    }
+                },
+                { field: 'phone', title: '手机号', width: 110 },
+                {
+                    field: 'status', title: '状态', width: 60, templet: function (d) {
                         if (d.status == 1) {
                             return '<span style="color: #009688;">正常</span>';
                         } else {
                             return '<span style="color: red;">禁用</span>';
                         }
-                    }},
-                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
-                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】';
-                    }},
-                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
+                    }
+                },
+                {
+                    field: 'cname', title: '创建', minWidth: 200, templet: function (d) {
+                        return util.toDateString(d.created_at * 1000) + '【' + d.cname + '】';
+                    }
+                },
+                {
+                    field: '', title: '最后一次修改', minWidth: 200, templet: function (d) {
                         if (d.updated_at) {
-                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
+                            return util.toDateString(d.updated_at * 1000) + '【' + d.uname + '】';
                         } else {
                             return '';
                         }
-                    }},
-                    {field: 'remark', title: '备注'}
-                ];
+                    }
+                },
+                { field: 'remark', title: '备注' }
+            ];
             if (isOperate == 1) {
-                cols.push({width: 340, toolbar: '#bar', title: '操作'})
+                cols.push({ width: 340, toolbar: '#bar', title: '操作' })
             }
             //初始化表格数据
             var tblIns = table.render({
@@ -112,7 +121,7 @@
                         tblIns.reload();
                         break;
                     case 'add':
-                        parent.xadmin.open('添加管理员','/back/admin/add', 600, 600);
+                        parent.xadmin.open('添加管理员', '/back/admin/add', 600, 600);
                         break;
                 };
             });
@@ -122,51 +131,51 @@
                 var data = obj.data;
                 switch (obj.event) {
                     case 'edit':
-                        parent.xadmin.open('编辑管理员','/back/admin/edit?id='+data.id, 600, 600);
+                        parent.xadmin.open('编辑管理员', '/back/admin/edit?id=' + data.id, 600, 600);
                         break;
                     case 'setRose':
-                        parent.xadmin.open('分配角色','/back/admin/setRose?id='+data.id, 600, 500);
+                        parent.xadmin.open('分配角色', '/back/admin/setRose?id=' + data.id, 600, 500);
                         break;
                     case 'resetPwd':
-                        layer.confirm('确认重置' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '的登录密吗？', {icon: 3}, function(){
+                        layer.confirm('确认重置' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '的登录密吗？', { icon: 3 }, function () {
                             $.ajax({
                                 url: '/back/admin/resetPwd',
                                 type: 'POST',
-                                data: {'id': data.id},
+                                data: { 'id': data.id },
                                 dataType: 'json',
                                 success: function (res) {
                                     if (res.code == 200) {
-                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                        layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
                                             window.location.reload();
                                         });
                                     } else {
-                                        layer.msg(res.msg, {icon: 2});
+                                        layer.msg(res.msg, { icon: 2 });
                                     }
                                 },
                                 error: function () {
-                                    layer.msg('网络错误', {icon: 5});
+                                    layer.msg('网络错误', { icon: 5 });
                                 }
                             });
                         })
                         break;
                     case 'stop':
-                        layer.confirm('确认禁用' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '？禁用后账号将无法登陆', {icon: 0}, function(){
+                        layer.confirm('确认禁用' + ' <span style="color: red;font-size: 18px;">' + data.nick_name + '</span> ' + '？禁用后账号将无法登陆', { icon: 0 }, function () {
                             $.ajax({
                                 url: '/back/admin/stop',
                                 type: 'POST',
-                                data: {'id': data.id},
+                                data: { 'id': data.id },
                                 dataType: 'json',
                                 success: function (res) {
                                     if (res.code == 200) {
-                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                        layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
                                             tblIns.reload();
                                         });
                                     } else {
-                                        layer.msg(res.msg, {icon: 2});
+                                        layer.msg(res.msg, { icon: 2 });
                                     }
                                 },
                                 error: function () {
-                                    layer.msg('网络错误', {icon: 5});
+                                    layer.msg('网络错误', { icon: 5 });
                                 }
                             });
                         })
@@ -175,60 +184,61 @@
                         $.ajax({
                             url: '/back/admin/start',
                             type: 'POST',
-                            data: {'id': data.id},
+                            data: { 'id': data.id },
                             dataType: 'json',
                             success: function (res) {
                                 if (res.code == 200) {
-                                    layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                    layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
                                         tblIns.reload();
                                     });
                                 } else {
-                                    layer.msg(res.msg, {icon: 2});
+                                    layer.msg(res.msg, { icon: 2 });
                                 }
                             },
                             error: function () {
-                                layer.msg('网络错误', {icon: 5});
+                                layer.msg('网络错误', { icon: 5 });
                             }
                         });
                         break;
                     case 'del':
-                        layer.confirm('确定删除？', {icon: 3}, function(){
+                        layer.confirm('确定删除？', { icon: 3 }, function () {
                             $.ajax({
                                 url: '/back/admin/del',
                                 type: 'POST',
-                                data: {'id': data.id},
+                                data: { 'id': data.id },
                                 dataType: 'json',
                                 success: function (res) {
                                     if (res.code == 200) {
-                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                        layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
                                             tblIns.reload();
                                         });
                                     } else {
-                                        layer.msg(res.msg, {icon: 2});
+                                        layer.msg(res.msg, { icon: 2 });
                                     }
                                 },
                                 error: function () {
-                                    layer.msg('网络错误', {icon: 5});
+                                    layer.msg('网络错误', { icon: 5 });
                                 }
                             });
                         })
                         break;
                 };
             });
-            
+
             // 图片放大镜
             window.bigShow = function (e) {
                 var url = $(e).attr('src');
-	            layer.open({
-	               type: 1,
-	               title: false,
-	               area: ['500px', '500px'],
-	               resize:false,//不可拖拽缩放
-	               content: "<img style='margin:10px;' alt=" + name + " title=" + name + " src=" + url + " height=480px; width=480px;" + "/>"
-	            });
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['500px', '500px'],
+                    resize: false,//不可拖拽缩放
+                    content: "<img style='margin:10px;' alt=" + name + " title=" + name + " src=" + url + " height=480px; width=480px;" + "/>"
+                });
             };
         });
     </script>
 
 </body>
+
 </html>

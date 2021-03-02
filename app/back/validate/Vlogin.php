@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\validate;
 
@@ -22,5 +22,4 @@ class Vlogin extends Validate
         'password.min'       => '密码不能少于6个字符',
         'password.alphaDash' => '密码只能包含数字，字母，下划线(_)及破折号(-)'
     ];
-
 }

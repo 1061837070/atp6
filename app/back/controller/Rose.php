@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -29,8 +29,8 @@ class Rose extends BaseController
         if (request()->isAjax()) {
             $list = Db::table('tp6_rose')
                 ->alias('a')
-                ->leftJoin('tp6_admin ca','a.created_id = ca.id')
-                ->leftJoin('tp6_admin ua','a.updated_id = ua.id')
+                ->leftJoin('tp6_admin ca', 'a.created_id = ca.id')
+                ->leftJoin('tp6_admin ua', 'a.updated_id = ua.id')
                 ->field('a.*')
                 ->field('ca.nick_name as cname')
                 ->field('ua.nick_name as uname')
@@ -43,7 +43,7 @@ class Rose extends BaseController
         $mbtns = $this->show_btn(['edit', 'setRule', 'del']);
         $isOperate = empty($mbtns) ? 0 : 1;
     
-        return view('index',['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
+        return view('index', ['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
     }
 
     /**
@@ -135,7 +135,7 @@ class Rose extends BaseController
         if (empty($roseInfo)) {
             $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/编辑的角色详情不存在，请重新确认';
-            $url = str_replace('/','*','/back/login');
+            $url = str_replace('/', '*', '/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
             die();
@@ -143,7 +143,7 @@ class Rose extends BaseController
         if ($roseInfo['name'] == '超级管理员') {
             $icon = '/iconstr/layui-icon-close-fill';
             $msgstr = '/msgstr/禁止编辑超级管理员';
-            $url = str_replace('/','*','/back/login');
+            $url = str_replace('/', '*', '/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
             die();
@@ -233,7 +233,7 @@ class Rose extends BaseController
         if (empty($roseInfo)) {
             $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/角色不存在，请重新确认';
-            $url = str_replace('/','*','/back/login');
+            $url = str_replace('/', '*', '/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
             die();
@@ -241,13 +241,13 @@ class Rose extends BaseController
         if ($roseInfo['name'] == '超级管理员') {
             $icon = '/iconstr/layui-icon-close-fill';
             $msgstr = '/msgstr/禁止给超级管理员分配权限';
-            $url = str_replace('/','*','/back/login');
+            $url = str_replace('/', '*', '/back/login');
             $urlstr = '/urlstr/'.$url;
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
             die();
         }
 
-        return view('setRule',['roseInfo'=>$roseInfo]);
+        return view('setRule', ['roseInfo'=>$roseInfo]);
     }
 
     /**
@@ -274,14 +274,14 @@ class Rose extends BaseController
             $ruleTree = cats_tree($ruleList);
             // 因为layui tree组件直接勾选父级后所有子集都会勾选，故选取无子集的节点
             $noChildStr = get_no_childs_id_str($ruleTree);
-            $noChildStr = trim($noChildStr,',');
-            $noChildArr = explode(',',$noChildStr);
+            $noChildStr = trim($noChildStr, ',');
+            $noChildArr = explode(',', $noChildStr);
             
             // 所有可选权限为当前登录管理员的权限
             $adminModel = new AdminModel;
             $adminInfo = $adminModel->getInfo(['id' => session('adminid')]);
             if ($adminInfo['nick_name'] == 'admin') {
-                $adminRuleList = $ruleModel->getAllList ();
+                $adminRuleList = $ruleModel->getAllList();
             } else {
                 $adminRule = $roseModel->getInfo(['id' => $adminInfo['rose_id']]);
                 $adminRuleArr = explode(',', $adminRule['rule']);
@@ -330,5 +330,4 @@ class Rose extends BaseController
             return '超级管理员角色添加失败';
         }
     }
-
 }

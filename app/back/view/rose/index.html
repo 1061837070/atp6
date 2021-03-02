@@ -1,5 +1,6 @@
 <!-- 引入模板公共头部 -->
 {include file='common/header'}
+
 <body>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -28,29 +29,33 @@
     </div>
 
     <script>
-        layui.use(['table','util'], function () {
+        layui.use(['table', 'util'], function () {
             var table = layui.table,
                 util = layui.util,
                 $ = layui.$;
             var isOperate = $("#isOperate").val();
             var cols = [
-                    {field: 'id', title: 'ID', width: 50, align: 'center'},
-                    {field: 'name', title: '角色名称'},
-                    {field: 'sort', title: '排序', width: 60},
-                    {field: 'cname', title: '创建', minWidth: 200, templet: function(d){
-                        return util.toDateString(d.created_at*1000) + '【' + d.cname + '】'; 
-                    }},
-                    {field: '', title: '最后一次修改', minWidth: 200, templet: function(d){
+                { field: 'id', title: 'ID', width: 50, align: 'center' },
+                { field: 'name', title: '角色名称' },
+                { field: 'sort', title: '排序', width: 60 },
+                {
+                    field: 'cname', title: '创建', minWidth: 200, templet: function (d) {
+                        return util.toDateString(d.created_at * 1000) + '【' + d.cname + '】';
+                    }
+                },
+                {
+                    field: '', title: '最后一次修改', minWidth: 200, templet: function (d) {
                         if (d.updated_at) {
-                            return util.toDateString(d.updated_at*1000) + '【' + d.uname + '】';
+                            return util.toDateString(d.updated_at * 1000) + '【' + d.uname + '】';
                         } else {
                             return '';
                         }
-                    }},
-                    {field: 'remark', title: '备注'}
-                ];
+                    }
+                },
+                { field: 'remark', title: '备注' }
+            ];
             if (isOperate == 1) {
-                cols.push({width: 210, toolbar: '#bar', title: '操作'})
+                cols.push({ width: 210, toolbar: '#bar', title: '操作' })
             }
 
             //初始化表格数据
@@ -90,7 +95,7 @@
                         tblIns.reload();
                         break;
                     case 'add':
-                        parent.xadmin.open('添加角色','/back/rose/add', 600, 400);
+                        parent.xadmin.open('添加角色', '/back/rose/add', 600, 400);
                         break;
                 };
             });
@@ -100,32 +105,32 @@
                 var data = obj.data;
                 switch (obj.event) {
                     case 'edit':
-                        parent.xadmin.open('编辑角色','/back/rose/edit?id='+data.id, 600, 400);
+                        parent.xadmin.open('编辑角色', '/back/rose/edit?id=' + data.id, 600, 400);
                         break;
                     case 'del':
-                        layer.confirm('确定删除？', {icon: 3}, function(){
+                        layer.confirm('确定删除？', { icon: 3 }, function () {
                             $.ajax({
                                 url: '/back/rose/del',
                                 type: 'POST',
-                                data: {'id': data.id},
+                                data: { 'id': data.id },
                                 dataType: 'json',
                                 success: function (res) {
                                     if (res.code == 200) {
-                                        layer.msg(res.msg, {icon: 1, time: 2000}, function(){
+                                        layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
                                             tblIns.reload();
                                         });
                                     } else {
-                                        layer.msg(res.msg, {icon: 2});
+                                        layer.msg(res.msg, { icon: 2 });
                                     }
                                 },
                                 error: function () {
-                                    layer.msg('网络错误', {icon: 5});
+                                    layer.msg('网络错误', { icon: 5 });
                                 }
                             });
                         })
                         break;
                     case 'setRule':
-                        parent.xadmin.add_tab('分配权限','/back/rose/setRule?id='+data.id,true)
+                        parent.xadmin.add_tab('分配权限', '/back/rose/setRule?id=' + data.id, true)
                         break;
                 };
             });
@@ -133,4 +138,5 @@
     </script>
 
 </body>
+
 </html>

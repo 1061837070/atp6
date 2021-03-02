@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>echarts曲线图</title>
 </head>
+
 <body>
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
     <div id="main" style="width: 600px;height:400px;margin-left: 20%;margin-top: 10%;"></div>
@@ -25,12 +27,12 @@
 
             // 各颜色线代表的数据信息
             legend: {
-                data:['销量','支出']
+                data: ['销量', '支出']
             },
 
             // 直角坐标系 X 轴
             xAxis: {
-                data: ["周一","周二","周三","周四","周五","周六","周日"]
+                data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
             },
 
             // 直角坐标系 Y 轴
@@ -55,4 +57,5 @@
         myChart.setOption(option);
     </script>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -18,16 +18,15 @@ class Err extends BaseController
      * @param {*}
      * @return {*}
      */
-    function err ()
+    public function err()
     {
         $params = request()->param();
 
         $icon = $params['iconstr'] ?? 'layui-icon-404';
         $msgstr = $params['msgstr'] ?? '操作错误，';
-        $urlstr = str_replace('*','/',$params['urlstr']) ?? '';
+        $urlstr = str_replace('*', '/', $params['urlstr']) ?? '';
         $btnstr = $params['btnstr'] ?? '';
 
         return view('err', ['icon' => $icon, 'msgstr' => $msgstr, 'urlstr' => $urlstr, 'btnstr' => $btnstr]);
     }
-
 }

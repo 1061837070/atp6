@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\model;
 
@@ -77,7 +77,6 @@ class RoseModel extends Model
     public function checkExit(array $where, int $id)
     {
         $res = self::where('id', '<>', $id)->where($where)->find();
-		return empty($res) ? false : true;
+        return empty($res) ? false : true;
     }
-
 }

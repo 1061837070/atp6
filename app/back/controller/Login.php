@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -21,7 +21,7 @@ class Login extends BaseController
      * @param {*}
      * @return {*}
      */
-    function login()
+    public function login()
     {
         if (request()->isAjax()) {
             $params = request()->param();
@@ -47,7 +47,7 @@ class Login extends BaseController
             }
 
             session('adminid', $adminInfo['id']);
-            session('adminkey', set_enc_key($adminInfo['nick_name'],$adminInfo['phone'],$adminInfo['password'],$adminInfo['status']));
+            session('adminkey', set_enc_key($adminInfo['nick_name'], $adminInfo['phone'], $adminInfo['password'], $adminInfo['status']));
 
             return json(['code' => 200, 'msg' => '登录成功']);
         }

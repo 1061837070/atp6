@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -58,7 +58,5 @@ class Test extends BaseController
     {
         // return redirect('http://www.baidu.com'); //直接重定向
         // return redirect('/back/test3/哈哈'); //重定向传参
-
     }
-
 }

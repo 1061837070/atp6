@@ -1,13 +1,5 @@
 <?php
-/*
- * @Descripttion: 
- * @version: 
- * @Author: sueRimn
- * @Date: 2020-12-03 18:10:04
- * @LastEditors: sueRimn
- * @LastEditTime: 2020-12-28 18:43:02
- */
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\model;
 
@@ -74,7 +66,6 @@ class AdminModel extends Model
     public function checkExit(array $where, int $id)
     {
         $res = self::where('id', '<>', $id)->where($where)->find();
-		return empty($res) ? false : true;
+        return empty($res) ? false : true;
     }
-
 }

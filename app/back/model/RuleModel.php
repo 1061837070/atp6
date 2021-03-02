@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\model;
 
@@ -28,7 +28,7 @@ class RuleModel extends Model
      * @param array $where = [] 查询条件，默认为空
      * @return array
      */
-    function getAllList (array $where = [])
+    public function getAllList(array $where = [])
     {
         $list = self::where($where)->order('sort')->select();
         return $list ? $list->toArray() : [];
@@ -49,7 +49,7 @@ class RuleModel extends Model
      * @param array $data 添加的数据，包含多个数据的二维数组
      * @return {*}
      */
-    function addDatas (array $data)
+    public function addDatas(array $data)
     {
         $res = self::saveAll($data);
         return $res ? $res->toArray() : [];
@@ -98,7 +98,6 @@ class RuleModel extends Model
     public function checkExit(array $where, int $id)
     {
         $res = self::where('id', '<>', $id)->where($where)->find();
-		return empty($res) ? false : true;
+        return empty($res) ? false : true;
     }
-
 }

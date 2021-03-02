@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\validate;
 
@@ -36,7 +36,7 @@ class Vrule extends Validate
      * @param string $value
      * @return bool|string
      */
-    protected function checkUrl (string $value)
+    protected function checkUrl(string $value)
     {
         if (!preg_match('/^(\/)$|^(\/back\/([a-zA-Z]+)\/([a-zA-Z]+))$/i', $value)) {
             return 'URL格式错误';

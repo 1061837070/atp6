@@ -1,5 +1,5 @@
 <?php
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace app\back\controller;
 
@@ -28,10 +28,10 @@ class Admin extends BaseController
         if (request()->isAjax()) {
             $list = Db::table('tp6_admin')
                 ->alias('a')
-                ->where('a.id','<>',1)
-                ->leftJoin('tp6_admin ca','a.created_id = ca.id')
-                ->leftJoin('tp6_admin ua','a.updated_id = ua.id')
-                ->leftJoin('tp6_rose r','a.rose_id = r.id')
+                ->where('a.id', '<>', 1)
+                ->leftJoin('tp6_admin ca', 'a.created_id = ca.id')
+                ->leftJoin('tp6_admin ua', 'a.updated_id = ua.id')
+                ->leftJoin('tp6_rose r', 'a.rose_id = r.id')
                 ->field('a.*')
                 ->field('ca.nick_name as cname')
                 ->field('ua.nick_name as uname')
@@ -45,7 +45,7 @@ class Admin extends BaseController
         $mbtns = $this->show_btn(['edit', 'setRose', 'resetPwd', 'stop', 'start', 'del']);
         $isOperate = empty($mbtns) ? 0 : 1;
     
-        return view('index',['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
+        return view('index', ['hbtns'=>$hbtns,'mbtns'=>$mbtns,'isOperate'=>$isOperate]);
     }
 
     /**
@@ -167,7 +167,7 @@ class Admin extends BaseController
         if (empty($adminInfo)) {
             $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/编辑的信息不存在';
-            $url = str_replace('/','*','/back/index/index');
+            $url = str_replace('/', '*', '/back/index/index');
             $urlstr = '/urlstr/'.$url;
 
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
@@ -176,7 +176,7 @@ class Admin extends BaseController
         if ($adminInfo['nick_name'] == 'admin') {
             $icon = '/iconstr/layui-icon-close-fill';
             $msgstr = '/msgstr/编辑的信息错误';
-            $url = str_replace('/','*','/back/index/index');
+            $url = str_replace('/', '*', '/back/index/index');
             $urlstr = '/urlstr/'.$url;
 
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
@@ -221,7 +221,7 @@ class Admin extends BaseController
         if (empty($adminInfo)) {
             $icon = '/iconstr/layui-icon-404';
             $msgstr = '/msgstr/信息不存在';
-            $url = str_replace('/','*','/back/index/index');
+            $url = str_replace('/', '*', '/back/index/index');
             $urlstr = '/urlstr/'.$url;
 
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
@@ -230,7 +230,7 @@ class Admin extends BaseController
         if ($adminInfo['nick_name'] == 'admin') {
             $icon = '/iconstr/layui-icon-close-fill';
             $msgstr = '/msgstr/信息错误';
-            $url = str_replace('/','*','/back/index/index');
+            $url = str_replace('/', '*', '/back/index/index');
             $urlstr = '/urlstr/'.$url;
 
             redirect('/back/err/err'.$icon.$msgstr.$urlstr)->send();
@@ -398,7 +398,7 @@ class Admin extends BaseController
         } catch (\think\exception\ValidateException $e) {
             return json(['code' => 400, 'msg' => $e->getMessage()]);
         }
-        $savename = \think\facade\Filesystem::disk('public')->putFile( 'admin_header_pic', $file);
+        $savename = \think\facade\Filesystem::disk('public')->putFile('admin_header_pic', $file);
         return json(['code' => 200, 'path_info' => '/storage/'.str_replace('\\', '/', $savename)]);
     }
 
@@ -434,5 +434,4 @@ class Admin extends BaseController
             return '超级管理员添加失败';
         }
     }
-
 }

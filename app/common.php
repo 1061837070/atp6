@@ -1,7 +1,7 @@
 <?php
 // 应用公共文件
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 if (!function_exists('p')) {
     /**
@@ -78,7 +78,7 @@ if (!function_exists('tree_to_two')) {
     function tree_to_two(array $arr)
     {
         $res = array();
-        foreach($arr as $v) {
+        foreach ($arr as $v) {
             if (isset($v['children'])) {
                 $t = $v['children'];
                 unset($v['children']);
@@ -99,11 +99,13 @@ if (!function_exists('rule_tree_to_two')) {
     function rule_tree_to_two(array $arr)
     {
         $res = array();
-        foreach($arr as $v) {
+        foreach ($arr as $v) {
             $t = $v['children'];
             unset($v['children']);
             $res[] = $v;
-            if($t) $res = array_merge($res, rule_tree_to_two($t));
+            if ($t) {
+                $res = array_merge($res, rule_tree_to_two($t));
+            }
         }
         return $res;
     }
@@ -166,7 +168,7 @@ if (!function_exists('build_tree_with_disabled_selected_html')) {
                 $sign = '';
             } else {
                 $sign = '';
-                for ($i=1; $i < $mark; $i++) { 
+                for ($i=1; $i < $mark; $i++) {
                     $sign .= ' - - ';
                 }
             }
@@ -174,7 +176,7 @@ if (!function_exists('build_tree_with_disabled_selected_html')) {
                 $selected = 'selected';
             } else {
                 $selected = '';
-            }                            
+            }
             $html .= '<option value="'.$v['id'].'"'.$disabled.$selected.'>'.$sign.$v['name'].'</option>';
             if (!empty($v['children'])) {
                 $childhtml = build_tree_with_disabled_selected_html($v['children'], $mark + 1, $idArr, $selectedId);
@@ -190,7 +192,7 @@ if (!function_exists('trim_arr')) {
      * @msg: 去掉数组的元素两端的空格
      * @param {array $arr}
      * @return {array}
-     */    
+     */
     function trim_arr(array $arr)
     {
         foreach ($arr as $k => $v) {
