@@ -20,4 +20,9 @@ class Index extends BaseController
     {
         return view('index2');
     }
+
+    public function index3()
+    {
+        return view('index3');
+    }
 }
