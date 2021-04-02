@@ -1,0 +1,143 @@
+<!-- 引入模板公共头部 -->
+{include file='common/header'}
+<style>
+    .header_pic {
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <!--表格头部左侧工具栏-->
+                <script type="text/html" id="tblToolbar">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal layui-btn-refresh" title="点击刷新" lay-event="refresh">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </button>
+                    {$hbtns|raw}
+                </script>
+
+                <!-- 右侧工具栏 -->
+                <script type="text/html" id="bar">
+                    {$mbtns|raw}
+                </script>
+
+                <div class="layui-card">
+                    <div class="layui-card-body ">
+                        <table class="layui-table" id="carouselList" lay-filter="list"></table>
+                    </div>
+                    <input type="hidden" id="isOperate" value="{$isOperate}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        layui.use(['table', 'util', 'layer'], function () {
+            var table = layui.table,
+                util = layui.util,
+                layer = layui.layer,
+                $ = layui.$;
+            var isOperate = $("#isOperate").val();
+            var cols = [
+                { field: 'id', title: 'ID', width: 50, align: 'center' },
+                {
+                    field: 'car_pic', title: '轮播图', width: 150, templet: function (d) {
+                        return '<img src="' + d.car_pic + '" height="30" class="header_pic" onclick="bigShow(this)" />';
+                    }
+                },
+                { field: 'url', title: 'url' },
+                { field: 'desc', title: '描述' },
+                {
+                    field: 'cname', title: '创建时间', width: 150, templet: function (d) {
+                        return util.toDateString(d.created_at * 1000);
+                    }
+                },
+            ];
+            if (isOperate == 1) {
+                cols.push({ width: 130, toolbar: '#bar', title: '操作' })
+            }
+            //初始化表格数据
+            var tblIns = table.render({
+                elem: '#carouselList',
+                toolbar: '#tblToolbar',
+                url: '/back/carouselPic/index',
+                done: function (res, curr, count) {
+
+                },
+                parseData: function (res) { //res 即为原始返回的数据
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.total, //解析数据长度
+                        "data": res.data, //解析数据列表
+                    };
+                },
+                cols: [cols],
+                response: {
+                    statusCode: 200 //规定成功的状态码味200
+                }
+            });
+
+            //监听左侧工具栏
+            table.on('toolbar(list)', function (obj) {
+                switch (obj.event) {
+                    case 'refresh':
+                        tblIns.reload();
+                        break;
+                    case 'add':
+                        parent.xadmin.open('添加轮播图', '/back/carouselPic/add', 600, 600);
+                        break;
+                };
+            });
+
+            // 点击工具条
+            table.on('tool(list)', function (obj) {
+                var data = obj.data;
+                switch (obj.event) {
+                    case 'edit':
+                        parent.xadmin.open('编辑轮播图', '/back/carouselPic/edit?id=' + data.id, 600, 600);
+                        break;
+                    case 'del':
+                        layer.confirm('确定删除？', { icon: 3 }, function () {
+                            $.ajax({
+                                url: '/back/admin/del',
+                                type: 'POST',
+                                data: { 'id': data.id },
+                                dataType: 'json',
+                                success: function (res) {
+                                    if (res.code == 200) {
+                                        layer.msg(res.msg, { icon: 1, time: 2000 }, function () {
+                                            tblIns.reload();
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, { icon: 2 });
+                                    }
+                                },
+                                error: function () {
+                                    layer.msg('网络错误', { icon: 5 });
+                                }
+                            });
+                        })
+                        break;
+                };
+            });
+
+            // 图片放大镜
+            window.bigShow = function (e) {
+                var url = $(e).attr('src');
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['500px', '500px'],
+                    resize: false,//不可拖拽缩放
+                    content: "<img style='margin:10px;' alt=" + name + " title=" + name + " src=" + url + " height=480px; width=480px;" + "/>"
+                });
+            };
+        });
+    </script>
+
+</body>
+
+</html>
